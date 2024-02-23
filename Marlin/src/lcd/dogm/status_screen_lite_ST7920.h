@@ -11,7 +11,6 @@
  * any later version.  The code is distributed WITHOUT ANY WARRANTY;
  * without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
- *
  */
 #pragma once
 
@@ -47,7 +46,7 @@ class ST7920_Lite_Status_Screen {
 
     static void write_str(const char *str);
     static void write_str(const char *str, const uint8_t len);
-    static void write_str_P(PGM_P const str);
+    static void write_str(FSTR_P const fstr);
     static void write_number(const int16_t value, const uint8_t digits=3);
 
     static void _extended_function_set(const bool extended, const bool graphics);
@@ -76,18 +75,22 @@ class ST7920_Lite_Status_Screen {
   protected:
     static void draw_degree_symbol(uint8_t x, uint8_t y, const bool draw);
     static void draw_static_elements();
-    static void draw_progress_bar(const uint8_t value);
     static void draw_fan_icon(const bool whichIcon);
     static void draw_heat_icon(const bool whichIcon, const bool heating);
     static void draw_temps(uint8_t line, const int16_t temp, const int16_t target, bool showTarget, bool targetStateChange);
-    static void draw_extruder_1_temp(const int16_t temp, const int16_t target, bool forceUpdate = false);
-    static void draw_extruder_2_temp(const int16_t temp, const int16_t target, bool forceUpdate = false);
-    static void draw_bed_temp(const int16_t temp, const int16_t target, bool forceUpdate = false);
+    static void draw_extruder_1_temp(const int16_t temp, const int16_t target, bool forceUpdate=false);
+    static void draw_extruder_2_temp(const int16_t temp, const int16_t target, bool forceUpdate=false);
+    static void draw_bed_temp(const int16_t temp, const int16_t target, bool forceUpdate=false);
     static void draw_fan_speed(const uint8_t value);
-    static void draw_print_time(const duration_t &elapsed);
+    #if HAS_PRINT_PROGRESS
+      static void draw_progress_bar(const uint8_t value);
+      static char* prepare_time_string(const duration_t &time, char prefix=' ');
+      static void draw_progress_string(uint8_t addr, const char *str);
+      static void update_progress(const bool forceUpdate);
+    #endif
     static void draw_feedrate_percentage(const uint16_t percentage);
     static void draw_status_message();
-    static void draw_position(const xyze_pos_t &pos, bool position_known = true);
+    static void draw_position(const xyze_pos_t &pos, bool position_known=true);
 
     static bool indicators_changed();
     static bool position_changed();
@@ -97,11 +100,18 @@ class ST7920_Lite_Status_Screen {
     static void update_indicators(const bool forceUpdate);
     static void update_position(const bool forceUpdate, bool resetChecksum);
     static void update_status_or_position(bool forceUpdate);
-    static void update_progress(const bool forceUpdate);
 
   public:
     static void update(const bool forceUpdate);
     static void on_entry();
     static void on_exit();
     static void clear_text_buffer();
+    #if HAS_PRINT_PROGRESS
+      static void drawPercent();
+      static void drawRemain();
+      static void drawInter();
+      static void drawElapsed();
+    #endif
 };
+
+extern ST7920_Lite_Status_Screen lightUI;

@@ -41,7 +41,6 @@
  */
 
 /**
- *
  * A servo is activated by creating an instance of the Servo class passing the desired pin to the attach() method.
  * The servos are pulsed in the background using the value most recently written using the write() method
  *
@@ -71,12 +70,12 @@
   #include "../TEENSY31_32/Servo.h"
 #elif IS_TEENSY35 || IS_TEENSY36
   #include "../TEENSY35_36/Servo.h"
+#elif IS_TEENSY40 || IS_TEENSY41
+  #include "../TEENSY40_41/Servo.h"
 #elif defined(TARGET_LPC1768)
   #include "../LPC1768/Servo.h"
 #elif defined(__STM32F1__) || defined(TARGET_STM32F1)
   #include "../STM32F1/Servo.h"
-#elif defined(STM32GENERIC) && defined(STM32F4)
-  #include "../STM32_F4_F7/Servo.h"
 #elif defined(ARDUINO_ARCH_STM32)
   #include "../STM32/Servo.h"
 #elif defined(ARDUINO_ARCH_ESP32)
@@ -84,10 +83,10 @@
 #else
   #include <stdint.h>
 
-  #if defined(__AVR__) || defined(ARDUINO_ARCH_SAM) || defined(__SAMD51__)
+  #if defined(__AVR__) || defined(ARDUINO_ARCH_SAM) || defined(__SAMD51__) || defined(__SAMD21__)
     // we're good to go
   #else
-    #error "This library only supports boards with an AVR, SAM3X or SAMD51 processor."
+    #error "This library only supports boards with an AVR, SAM3X, SAMD21 or SAMD51 processor."
   #endif
 
   #define Servo_VERSION           2     // software version of this library

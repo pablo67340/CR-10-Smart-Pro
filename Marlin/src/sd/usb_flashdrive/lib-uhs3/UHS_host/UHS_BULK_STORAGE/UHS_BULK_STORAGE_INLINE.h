@@ -41,9 +41,7 @@ e-mail   :  support@circuitsathome.com
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-
 // Interface code
-
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -298,9 +296,7 @@ again:
 // Only developer serviceable parts below!
 
 ////////////////////////////////////////////////////////////////////////////////
-
 // Main driver code
-
 ////////////////////////////////////////////////////////////////////////////////
 
 UHS_NI UHS_Bulk_Storage::UHS_Bulk_Storage(UHS_USB_HOST_BASE *p) {
@@ -318,7 +314,6 @@ UHS_NI UHS_Bulk_Storage::UHS_Bulk_Storage(UHS_USB_HOST_BASE *p) {
 }
 
 /**
- *
  * @param ei Enumeration information
  * @return true if this interface driver can handle this interface description
  */
@@ -375,7 +370,6 @@ uint8_t UHS_NI UHS_Bulk_Storage::SetInterface(ENUMERATION_INFO *ei) {
 };
 
 /**
- *
  * @return 0 for success
  */
 uint8_t UHS_NI UHS_Bulk_Storage::Start() {
@@ -455,9 +449,9 @@ uint8_t UHS_NI UHS_Bulk_Storage::Start() {
         for(uint8_t lun = 0; lun <= bMaxLUN; lun++) {
                 if(!UHS_SLEEP_MS(3)) goto FailUnPlug;
                 #ifndef USB_NO_TEST_UNIT_READY
-                uint8_t tries = 0xf0;
+                uint8_t tries = 0xF0;
                 while((rcode = TestUnitReady(lun))) {
-                        BS_HOST_DEBUG("\r\nTry %2.2x TestUnitReady %2.2x\r\n", tries - 0xf0, rcode);
+                        BS_HOST_DEBUG("\r\nTry %2.2x TestUnitReady %2.2x\r\n", tries - 0xF0, rcode);
                         if(rcode == 0x08) break; // break on no media, this is OK to do.
                         if(rcode == UHS_BULK_ERR_DEVICE_DISCONNECTED) goto FailUnPlug;
                         if(rcode == UHS_BULK_ERR_INVALID_CSW) goto Fail;
@@ -477,7 +471,7 @@ uint8_t UHS_NI UHS_Bulk_Storage::Start() {
                         if(!UHS_SLEEP_MS(3)) goto FailUnPlug;
                         if(MediaCTL(lun, 1) == UHS_BULK_ERR_DEVICE_DISCONNECTED) goto FailUnPlug; // I actually have a USB stick that needs this!
                 }
-                BS_HOST_DEBUG("\r\nTry %2.2x TestUnitReady %2.2x\r\n", tries - 0xf0, rcode);
+                BS_HOST_DEBUG("\r\nTry %2.2x TestUnitReady %2.2x\r\n", tries - 0xF0, rcode);
                 if(!rcode) {
                         if(!UHS_SLEEP_MS(3)) goto FailUnPlug;
                         BS_HOST_DEBUG("CheckLUN...\r\n");
@@ -581,7 +575,7 @@ bool UHS_NI UHS_Bulk_Storage::CheckLUN(uint8_t lun) {
 
         CurrentCapacity[lun] = UHS_BYTES_TO_UINT32(capacity.data[0], capacity.data[1], capacity.data[2], capacity.data[3]) + 1;
         if(CurrentCapacity[lun] == /*0xffffffffLU */ 0x01LU || CurrentCapacity[lun] == 0x00LU) {
-                // Buggy firmware will report 0xffffffff or 0 for no media
+                // Buggy firmware will report 0xFFFFFFFF or 0 for no media
 #ifdef DEBUG_USB_HOST
                 if(CurrentCapacity[lun])
                         ErrorMessage<uint8_t > (PSTR(">>>>>>>>>>>>>>>>BUGGY FIRMWARE. CAPACITY FAIL ON LUN"), lun);
@@ -628,7 +622,6 @@ void UHS_NI UHS_Bulk_Storage::CheckMedia() {
 
 /**
  * For driver use only.
- *
  */
 void UHS_NI UHS_Bulk_Storage::Poll() {
         if((long)(millis() - qNextPollTime) >= 0L) {
@@ -640,11 +633,7 @@ void UHS_NI UHS_Bulk_Storage::Poll() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
-
 // SCSI code
-
-
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -759,7 +748,7 @@ uint8_t UHS_NI UHS_Bulk_Storage::Page3F(uint8_t lun) {
                 buf[i] = 0x00;
         }
         WriteOk[lun] = true;
-        uint8_t rc = ModeSense6(lun, 0, 0x3f, 0, 192, buf);
+        uint8_t rc = ModeSense6(lun, 0, 0x3F, 0, 192, buf);
         if(!rc) {
                 WriteOk[lun] = ((buf[2] & 0x80) == 0);
 #ifdef DEBUG_USB_HOST
@@ -797,13 +786,8 @@ uint8_t UHS_NI UHS_Bulk_Storage::RequestSense(uint8_t lun, uint16_t size, uint8_
         return v;
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
-
-
 // USB code
-
-
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -839,7 +823,6 @@ uint8_t UHS_NI UHS_Bulk_Storage::ClearEpHalt(uint8_t index) {
 
 /**
  * For driver use only.
- *
  */
 void UHS_NI UHS_Bulk_Storage::Reset() {
         if(!bAddress) return;
@@ -957,7 +940,6 @@ uint8_t UHS_NI UHS_Bulk_Storage::HandleUsbError(uint8_t error, uint8_t index) {
                                 ClearEpHalt(index);
                                 if(index != epDataInIndex) return UHS_BULK_ERR_WRITE_STALL;
                                 return UHS_BULK_ERR_STALL;
-
 
                         case UHS_HOST_ERROR_TOGERR:
                                 // Handle a very super rare corner case, where toggles become de-synched.
@@ -1175,17 +1157,11 @@ uint8_t UHS_NI UHS_Bulk_Storage::HandleSCSIError(uint8_t status) {
         } // switch
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
-
-
 // Debugging code
-
-
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- *
  * @param ep_ptr
  */
 void UHS_NI UHS_Bulk_Storage::PrintEndpointDescriptor(const USB_FD_ENDPOINT_DESCRIPTOR * ep_ptr) {

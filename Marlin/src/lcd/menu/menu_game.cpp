@@ -24,12 +24,12 @@
 
 #if HAS_GAME_MENU
 
-#include "menu.h"
+#include "menu_item.h"
 #include "game/game.h"
 
 void menu_game() {
   START_MENU();
-  BACK_ITEM(TERN(LCD_INFO_MENU, MSG_INFO_MENU, MSG_MAIN));
+  BACK_ITEM(TERN(LCD_INFO_MENU, MSG_INFO_MENU, MSG_MAIN_MENU));
   #if ENABLED(MARLIN_BRICKOUT)
     SUBMENU(MSG_BRICKOUT, brickout.enter_game);
   #endif

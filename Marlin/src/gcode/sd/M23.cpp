@@ -22,75 +22,23 @@
 
 #include "../../inc/MarlinConfig.h"
 
-#if ENABLED(SDSUPPORT)
+#if HAS_MEDIA
 
 #include "../gcode.h"
 #include "../../sd/cardreader.h"
-#include "../../lcd/ultralcd.h"
-#if ENABLED(RTS_AVAILABLE)
-  #include "../../lcd/dwin/lcd_rts.h"
-#endif
-#include "../../feature/runout.h"
+#include "../../lcd/marlinui.h"
 
 /**
  * M23: Open a file
  *
  * The path is relative to the root directory
  */
-void GcodeSuite::M23()
-{
+void GcodeSuite::M23() {
   // Simplify3D includes the size, so zero out all spaces (#7227)
-  for (char *fn = parser.string_arg; *fn; ++fn)
-  {
-    if (*fn == ' ')
-    {
-      *fn = '\0';
-    }
-  }
+  for (char *fn = parser.string_arg; *fn; ++fn) if (*fn == ' ') *fn = '\0';
   card.openFileRead(parser.string_arg);
 
-  #if ENABLED(RTS_AVAILABLE)
-    #if ENABLED(FILAMENT_RUNOUT_SENSOR)
-      if(runout.enabled == true)
-      {
-        runout.filament_ran_out = false;
-      }
-    #endif
-    if(PoweroffContinue == false)
-    {
-      int fileselect = 0;
-      for(int i = 0;i < 20;i ++)
-      {
-        // clean print file
-        rtscheck.RTS_SndData(0, PRINT_FILE_TEXT_VP + i);
-      }
-
-      char *cloudfilename = parser.string_arg;
-      int cloudnamelen = strlen(parser.string_arg);
-      for(fileselect = 0;fileselect < CardRecbuf.Filesum;fileselect ++)
-      {
-        if(!strncmp(CardRecbuf.Cardshowfilename[fileselect], cloudfilename, cloudnamelen))
-        {
-          break;
-        }
-      }
-      int j = 1;
-      while((strncmp(&cloudfilename[j], ".gcode", 6) && strncmp(&cloudfilename[j], ".GCODE", 6)) && ((j ++) < cloudnamelen));
-
-      if (j >= TEXTBYTELEN)
-      {
-        strncpy(&parser.string_arg[TEXTBYTELEN - 3], "..", 2);
-        parser.string_arg[TEXTBYTELEN - 1] = '\0';
-        j = TEXTBYTELEN - 1;
-      }
-
-      strncpy(CardRecbuf.Cardshowfilename[fileselect], parser.string_arg, j);
-
-      rtscheck.RTS_SndData(CardRecbuf.Cardshowfilename[fileselect], PRINT_FILE_TEXT_VP);
-    }
-  #endif
-
-  TERN_(LCD_SET_PROGRESS_MANUALLY, ui.set_progress(0));
+  TERN_(SET_PROGRESS_PERCENT, ui.set_progress(0));
 }
 
-#endif // SDSUPPORT
+#endif // HAS_MEDIA

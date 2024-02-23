@@ -29,8 +29,6 @@
 #define SWI_MAXIMUM_ALLOWED 4
 #endif
 
-
-
 #if defined(__arm__) || defined(ARDUINO_ARCH_PIC32)
 static char dyn_SWI_initied = 0;
 static dyn_SWI* dyn_SWI_LIST[SWI_MAXIMUM_ALLOWED];
@@ -79,7 +77,6 @@ void softISR() {
         // TO-DO: Perhaps limit to 8, and inline this?
         //
 
-
         // Make a working copy, while clearing the queue.
         noInterrupts();
 #ifdef ARDUINO_ARCH_PIC32
@@ -116,7 +113,6 @@ void softISR() {
 
 #define DDSB() __DSB()
 #endif
-
 
 #ifdef __arm__
 #ifndef interruptsStatus
@@ -165,7 +161,6 @@ static void Init_dyn_SWI() {
 }
 
 /**
- *
  * @param klass class that extends dyn_SWI
  * @return 0 on queue full, else returns queue position (ones based)
  */
@@ -219,7 +214,6 @@ static void Init_dyn_SWI() {
 }
 
 /**
- *
  * @param klass class that extends dyn_SWI
  * @return 0 on queue full, else returns queue position (ones based)
  */

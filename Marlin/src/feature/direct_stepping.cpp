@@ -19,6 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
+
 #include "../inc/MarlinConfigPre.h"
 
 #if ENABLED(DIRECT_STEPPING)
@@ -51,16 +52,13 @@ namespace DirectStepping {
   volatile bool SerialPageManager<Cfg>::fatal_error;
 
   template<typename Cfg>
-  volatile PageState SerialPageManager<Cfg>::page_states[Cfg::NUM_PAGES];
+  volatile PageState SerialPageManager<Cfg>::page_states[Cfg::PAGE_COUNT];
 
   template<typename Cfg>
   volatile bool SerialPageManager<Cfg>::page_states_dirty;
 
   template<typename Cfg>
-  millis_t SerialPageManager<Cfg>::next_response;
-
-  template<typename Cfg>
-  uint8_t SerialPageManager<Cfg>::pages[Cfg::NUM_PAGES][Cfg::PAGE_SIZE];
+  uint8_t SerialPageManager<Cfg>::pages[Cfg::PAGE_COUNT][Cfg::PAGE_SIZE];
 
   template<typename Cfg>
   uint8_t SerialPageManager<Cfg>::checksum;
@@ -76,11 +74,10 @@ namespace DirectStepping {
 
   template <typename Cfg>
   void SerialPageManager<Cfg>::init() {
-    for (int i = 0 ; i < Cfg::NUM_PAGES ; i++)
+    for (int i = 0 ; i < Cfg::PAGE_COUNT ; i++)
       page_states[i] = PageState::FREE;
 
     fatal_error = false;
-    next_response = 0;
     state = State::NEWLINE;
 
     page_states_dirty = false;
@@ -146,14 +143,16 @@ namespace DirectStepping {
           // special case for 8-bit, check if rolled back to 0
           if (Cfg::DIRECTIONAL || !write_page_size) { // full 256 bytes
             if (write_byte_idx) return true;
-          } else {
-            if (write_byte_idx < write_page_size) return true;
           }
-        } else if (Cfg::DIRECTIONAL) {
-          if (write_byte_idx != Cfg::PAGE_SIZE) return true;
-        } else {
-          if (write_byte_idx < write_page_size) return true;
+          else if (write_byte_idx < write_page_size)
+            return true;
         }
+        else if (Cfg::DIRECTIONAL) {
+          if (write_byte_idx != Cfg::PAGE_SIZE)
+            return true;
+        }
+        else if (write_byte_idx < write_page_size)
+          return true;
 
         state = State::CHECKSUM;
         return true;
@@ -164,11 +163,10 @@ namespace DirectStepping {
         return true;
       }
       case State::UNFAIL:
-        if (c == 0) {
+        if (c == 0)
           set_page_state(write_page_idx, PageState::FREE);
-        } else {
+        else
           fatal_error = true;
-        }
         state = State::MONITOR;
         return true;
     }
@@ -177,36 +175,29 @@ namespace DirectStepping {
   template <typename Cfg>
   void SerialPageManager<Cfg>::write_responses() {
     if (fatal_error) {
-      kill(GET_TEXT(MSG_BAD_PAGE));
+      kill(GET_TEXT_F(MSG_BAD_PAGE));
       return;
     }
 
-    // Runs on a set interval also, as responses may get lost.
-    if (next_response && next_response < millis()) {
-      page_states_dirty = true;
-    }
-
     if (!page_states_dirty) return;
-
     page_states_dirty = false;
-    next_response = millis() + Cfg::RESPONSE_INTERVAL_MS;
 
-    SERIAL_ECHO(Cfg::CONTROL_CHAR);
+    SERIAL_CHAR(Cfg::CONTROL_CHAR);
     constexpr int state_bits = 2;
-    constexpr int n_bytes = Cfg::NUM_PAGES >> state_bits;
+    constexpr int n_bytes = Cfg::PAGE_COUNT >> state_bits;
     volatile uint8_t bits_b[n_bytes] = { 0 };
 
-    for (page_idx_t i = 0 ; i < Cfg::NUM_PAGES ; i++) {
+    for (page_idx_t i = 0 ; i < Cfg::PAGE_COUNT ; i++) {
       bits_b[i >> state_bits] |= page_states[i] << ((i * state_bits) & 0x7);
     }
 
     uint8_t crc = 0;
     for (uint8_t i = 0 ; i < n_bytes ; i++) {
       crc ^= bits_b[i];
-      SERIAL_ECHO(bits_b[i]);
+      SERIAL_CHAR(bits_b[i]);
     }
 
-    SERIAL_ECHO(crc);
+    SERIAL_CHAR(crc);
     SERIAL_EOL();
   }
 
@@ -238,29 +229,29 @@ const uint8_t segment_table[DirectStepping::Config::NUM_SEGMENTS][DirectStepping
 
   #if STEPPER_PAGE_FORMAT == SP_4x4D_128
 
-    { 1, 1, 1, 1, 1, 1, 1, 0 }, //  0 = -7
-    { 1, 1, 1, 0, 1, 1, 1, 0 }, //  1 = -6
-    { 0, 1, 1, 0, 1, 0, 1, 1 }, //  2 = -5
-    { 0, 1, 0, 1, 0, 1, 0, 1 }, //  3 = -4
-    { 0, 1, 0, 0, 1, 0, 0, 1 }, //  4 = -3
-    { 0, 0, 1, 0, 0, 0, 1, 0 }, //  5 = -2
-    { 0, 0, 0, 0, 1, 0, 0, 0 }, //  6 = -1
-    { 0, 0, 0, 0, 0, 0, 0, 0 }, //  7 =  0
-    { 0, 0, 0, 0, 1, 0, 0, 0 }, //  8 =  1
-    { 0, 0, 1, 0, 0, 0, 1, 0 }, //  9 =  2
-    { 0, 1, 0, 0, 1, 0, 0, 1 }, // 10 =  3
-    { 0, 1, 0, 1, 0, 1, 0, 1 }, // 11 =  4
-    { 0, 1, 1, 0, 1, 0, 1, 1 }, // 12 =  5
-    { 1, 1, 1, 0, 1, 1, 1, 0 }, // 13 =  6
-    { 1, 1, 1, 1, 1, 1, 1, 0 }, // 14 =  7
+    { 1, 1, 1, 1, 1, 1, 1 }, //  0 = -7
+    { 1, 1, 1, 0, 1, 1, 1 }, //  1 = -6
+    { 1, 1, 1, 0, 1, 0, 1 }, //  2 = -5
+    { 1, 1, 0, 1, 0, 1, 0 }, //  3 = -4
+    { 1, 1, 0, 0, 1, 0, 0 }, //  4 = -3
+    { 0, 0, 1, 0, 0, 0, 1 }, //  5 = -2
+    { 0, 0, 0, 1, 0, 0, 0 }, //  6 = -1
+    { 0, 0, 0, 0, 0, 0, 0 }, //  7 =  0
+    { 0, 0, 0, 1, 0, 0, 0 }, //  8 =  1
+    { 0, 0, 1, 0, 0, 0, 1 }, //  9 =  2
+    { 1, 1, 0, 0, 1, 0, 0 }, // 10 =  3
+    { 1, 1, 0, 1, 0, 1, 0 }, // 11 =  4
+    { 1, 1, 1, 0, 1, 0, 1 }, // 12 =  5
+    { 1, 1, 1, 0, 1, 1, 1 }, // 13 =  6
+    { 1, 1, 1, 1, 1, 1, 1 }, // 14 =  7
     { 0 }
 
   #elif STEPPER_PAGE_FORMAT == SP_4x2_256
 
-    { 0, 0, 0, 0 }, // 0
-    { 0, 1, 0, 0 }, // 1
-    { 1, 0, 1, 0 }, // 2
-    { 1, 1, 1, 0 }, // 3
+    { 0, 0, 0 }, // 0
+    { 0, 1, 0 }, // 1
+    { 1, 0, 1 }, // 2
+    { 1, 1, 1 }, // 3
 
   #elif STEPPER_PAGE_FORMAT == SP_4x1_512
 

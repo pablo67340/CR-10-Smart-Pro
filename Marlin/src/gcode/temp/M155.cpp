@@ -22,7 +22,7 @@
 
 #include "../../inc/MarlinConfig.h"
 
-#if BOTH(AUTO_REPORT_TEMPERATURES, HAS_TEMP_SENSOR)
+#if ALL(AUTO_REPORT_TEMPERATURES, HAS_TEMP_SENSOR)
 
 #include "../gcode.h"
 #include "../../module/temperature.h"
@@ -33,7 +33,7 @@
 void GcodeSuite::M155() {
 
   if (parser.seenval('S'))
-    thermalManager.set_auto_report_interval(parser.value_byte());
+    thermalManager.auto_reporter.set_interval(parser.value_byte());
 
 }
 

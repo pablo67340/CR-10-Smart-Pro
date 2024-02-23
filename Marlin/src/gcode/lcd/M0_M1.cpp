@@ -31,15 +31,15 @@
 #include "../../module/planner.h" // for synchronize()
 #include "../../MarlinCore.h"     // for wait_for_user_response()
 
-#if HAS_LCD_MENU
-  #include "../../lcd/ultralcd.h"
+#if HAS_MARLINUI_MENU
+  #include "../../lcd/marlinui.h"
 #elif ENABLED(EXTENSIBLE_UI)
   #include "../../lcd/extui/ui_api.h"
+#elif ENABLED(DWIN_LCD_PROUI)
+  #include "../../lcd/e3v2/proui/dwin_popup.h"
+  #include "../../lcd/e3v2/proui/dwin.h"
 #endif
 
-#if ENABLED(RTS_AVAILABLE)
-  #include "../../lcd/dwin/lcd_rts.h"
-#endif
 #if ENABLED(HOST_PROMPT_SUPPORT)
   #include "../../feature/host_actions.h"
 #endif
@@ -48,21 +48,19 @@
  * M0: Unconditional stop - Wait for user button press on LCD
  * M1: Conditional stop   - Wait for user button press on LCD
  */
-void GcodeSuite::M0_M1()
-{
-  TERN_(RTS_AVAILABLE, RTS_CommandPause());
+void GcodeSuite::M0_M1() {
   millis_t ms = 0;
   if (parser.seenval('P')) ms = parser.value_millis();              // Milliseconds to wait
   if (parser.seenval('S')) ms = parser.value_millis_from_seconds(); // Seconds to wait
 
   planner.synchronize();
 
-  #if HAS_LCD_MENU
+  #if HAS_MARLINUI_MENU
 
     if (parser.string_arg)
       ui.set_status(parser.string_arg, true);
     else {
-      LCD_MESSAGEPGM(MSG_USERWAIT);
+      LCD_MESSAGE(MSG_USERWAIT);
       #if ENABLED(LCD_PROGRESS_BAR) && PROGRESS_MSG_EXPIRE > 0
         ui.reset_progress_bar_timeout();
       #endif
@@ -70,9 +68,14 @@ void GcodeSuite::M0_M1()
 
   #elif ENABLED(EXTENSIBLE_UI)
     if (parser.string_arg)
-      ExtUI::onUserConfirmRequired(parser.string_arg); // Can this take an SRAM string??
+      ExtUI::onUserConfirmRequired(parser.string_arg); // String in an SRAM buffer
     else
-      ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_USERWAIT));
+      ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_USERWAIT));
+  #elif ENABLED(DWIN_LCD_PROUI)
+    if (parser.string_arg)
+      DWIN_Popup_Confirm(ICON_BLTouch, parser.string_arg, GET_TEXT_F(MSG_USERWAIT));
+    else
+      DWIN_Popup_Confirm(ICON_BLTouch, GET_TEXT_F(MSG_STOPPED), GET_TEXT_F(MSG_USERWAIT));
   #else
 
     if (parser.string_arg) {
@@ -82,11 +85,16 @@ void GcodeSuite::M0_M1()
 
   #endif
 
-  TERN_(HOST_PROMPT_SUPPORT, host_prompt_do(PROMPT_USER_CONTINUE, parser.codenum ? PSTR("M1 Stop") : PSTR("M0 Stop"), CONTINUE_STR));
+  #if ENABLED(HOST_PROMPT_SUPPORT)
+    if (parser.string_arg)
+      hostui.continue_prompt(parser.string_arg);
+    else
+      hostui.continue_prompt(parser.codenum ? F("M1 Stop") : F("M0 Stop"));
+  #endif
 
-  wait_for_user_response(ms);
+  TERN_(HAS_RESUME_CONTINUE, wait_for_user_response(ms));
 
-  TERN_(HAS_LCD_MENU, ui.reset_status());
+  TERN_(HAS_MARLINUI_MENU, ui.reset_status());
 }
 
 #endif // HAS_RESUME_CONTINUE

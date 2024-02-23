@@ -1,4 +1,4 @@
-/*
+/**
  * Marlin 3D Printer Firmware
  * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
@@ -36,7 +36,7 @@ void PCA9533_init() {
   PCA9533_reset();
 }
 
-static void PCA9533_writeAllRegisters(uint8_t psc0, uint8_t pwm0, uint8_t psc1, uint8_t pwm1, uint8_t ls0){
+static void PCA9533_writeAllRegisters(uint8_t psc0, uint8_t pwm0, uint8_t psc1, uint8_t pwm1, uint8_t ls0) {
   uint8_t data[6] = { PCA9533_REG_PSC0 | PCA9533_REGM_AI, psc0, pwm0, psc1, pwm1, ls0 };
   Wire.beginTransmission(PCA9533_Addr >> 1);
   Wire.write(data, 6);
@@ -44,7 +44,7 @@ static void PCA9533_writeAllRegisters(uint8_t psc0, uint8_t pwm0, uint8_t psc1, 
   delayMicroseconds(1);
 }
 
-static void PCA9533_writeRegister(uint8_t reg, uint8_t val){
+static void PCA9533_writeRegister(uint8_t reg, uint8_t val) {
   uint8_t data[2] = { reg, val };
   Wire.beginTransmission(PCA9533_Addr >> 1);
   Wire.write(data, 2);
@@ -62,7 +62,7 @@ void PCA9533_setOff() {
   PCA9533_writeRegister(PCA9533_REG_SEL, 0);
 }
 
-void PCA9533_setColor(uint8_t red, uint8_t green, uint8_t blue) {
+void PCA9533_set_rgb(uint8_t red, uint8_t green, uint8_t blue) {
   uint8_t r_pwm0 = 0; // Register data - PWM value
   uint8_t r_pwm1 = 0; // Register data - PWM value
 

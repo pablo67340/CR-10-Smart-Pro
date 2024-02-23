@@ -23,13 +23,12 @@
 
 /**
  * Intamsys Funmat HT V4.0 Mainboard
+ * ATmega2560
  * 4988 Drivers Tested
  * 2208 version exists and may or may not work
  */
 
-#ifndef __AVR_ATmega2560__
-  #error "Oops! Select 'Arduino/Genuino Mega or Mega 2560' in 'Tools > Board.'"
-#endif
+#include "env_validate.h"
 
 #define BOARD_INFO_NAME "Intamsys 4.0"
 
@@ -82,7 +81,7 @@
 
 // Motor current PWM conversion, PWM value = MotorCurrentSetting * 255 / range
 #ifndef MOTOR_CURRENT_PWM_RANGE
-  #define MOTOR_CURRENT_PWM_RANGE  2000
+  #define MOTOR_CURRENT_PWM_RANGE            2000
 #endif
 #define DEFAULT_PWM_MOTOR_CURRENT  { 1300, 1300, 1250 }
 
@@ -100,7 +99,7 @@
 #define HEATER_0_PIN                           2  // PWM
 #define HEATER_BED_PIN                         4  // PWM
 #define HEATER_CHAMBER_PIN                     3  // PWM
-#define FAN_PIN                                7  // PWM
+#define FAN0_PIN                               7  // PWM
 
 //
 // Misc. Functions
@@ -122,9 +121,9 @@
 
 #define BEEPER_PIN                            18
 
-#if HAS_SPI_LCD
+#if HAS_WIRED_LCD
   #define LCD_PINS_RS                         20
-  #define LCD_PINS_ENABLE                     30
+  #define LCD_PINS_EN                         30
   #define LCD_PINS_D4                         14
   #define LCD_PINS_D5                         21
   #define LCD_PINS_D6                          5
@@ -137,7 +136,6 @@
 ///////////////////// SPARE HEADERS //////////////
 
 /**
- *
  * J25
  * 1 D54
  * 2 D55

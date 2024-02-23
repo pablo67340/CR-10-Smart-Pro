@@ -22,7 +22,7 @@
 
 #include "../inc/MarlinConfig.h"
 
-#if EITHER(NOZZLE_CLEAN_FEATURE, NOZZLE_PARK_FEATURE)
+#if ANY(NOZZLE_CLEAN_FEATURE, NOZZLE_PARK_FEATURE)
 
 #include "nozzle.h"
 
@@ -30,6 +30,10 @@ Nozzle nozzle;
 
 #include "../MarlinCore.h"
 #include "../module/motion.h"
+
+#if NOZZLE_CLEAN_MIN_TEMP > 20
+  #include "../module/temperature.h"
+#endif
 
 #if ENABLED(NOZZLE_CLEAN_FEATURE)
 
@@ -42,19 +46,30 @@ Nozzle nozzle;
    * @param strokes number of strokes to execute
    */
   void Nozzle::stroke(const xyz_pos_t &start, const xyz_pos_t &end, const uint8_t &strokes) {
-    TERN_(NOZZLE_CLEAN_GOBACK, const xyz_pos_t oldpos = current_position);
+    #if ENABLED(NOZZLE_CLEAN_GOBACK)
+      const xyz_pos_t oldpos = current_position;
+    #endif
 
     // Move to the starting point
     #if ENABLED(NOZZLE_CLEAN_NO_Z)
-      do_blocking_move_to_xy(start);
+      #if ENABLED(NOZZLE_CLEAN_NO_Y)
+        do_blocking_move_to_x(start.x);
+      #else
+        do_blocking_move_to_xy(start);
+      #endif
     #else
       do_blocking_move_to(start);
     #endif
 
     // Start the stroke pattern
-    LOOP_L_N(i, strokes >> 1) {
-      do_blocking_move_to_xy(end);
-      do_blocking_move_to_xy(start);
+    for (uint8_t i = 0; i < strokes >> 1; ++i) {
+      #if ENABLED(NOZZLE_CLEAN_NO_Y)
+        do_blocking_move_to_x(end.x);
+        do_blocking_move_to_x(start.x);
+      #else
+        do_blocking_move_to_xy(end);
+        do_blocking_move_to_xy(start);
+      #endif
     }
 
     TERN_(NOZZLE_CLEAN_GOBACK, do_blocking_move_to(oldpos));
@@ -73,7 +88,9 @@ Nozzle nozzle;
     const xy_pos_t diff = end - start;
     if (!diff.x || !diff.y) return;
 
-    TERN_(NOZZLE_CLEAN_GOBACK, const xyz_pos_t back = current_position);
+    #if ENABLED(NOZZLE_CLEAN_GOBACK)
+      const xyz_pos_t back = current_position;
+    #endif
 
     #if ENABLED(NOZZLE_CLEAN_NO_Z)
       do_blocking_move_to_xy(start);
@@ -85,7 +102,7 @@ Nozzle nozzle;
     const bool horiz = ABS(diff.x) >= ABS(diff.y);    // Do a horizontal wipe?
     const float P = (horiz ? diff.x : diff.y) / zigs; // Period of each zig / zag
     const xyz_pos_t *side;
-    LOOP_L_N(j, strokes) {
+    for (uint8_t j = 0; j < strokes; ++j) {
       for (int8_t i = 0; i < zigs; i++) {
         side = (i & 1) ? &end : &start;
         if (horiz)
@@ -113,14 +130,16 @@ Nozzle nozzle;
    * @param strokes number of strokes to execute
    * @param radius radius of circle
    */
-  void Nozzle::circle(const xyz_pos_t &start, const xyz_pos_t &middle, const uint8_t &strokes, const float &radius) {
+  void Nozzle::circle(const xyz_pos_t &start, const xyz_pos_t &middle, const uint8_t &strokes, const_float_t radius) {
     if (strokes == 0) return;
 
-    TERN_(NOZZLE_CLEAN_GOBACK, const xyz_pos_t back = current_position);
+    #if ENABLED(NOZZLE_CLEAN_GOBACK)
+      const xyz_pos_t back = current_position;
+    #endif
     TERN(NOZZLE_CLEAN_NO_Z, do_blocking_move_to_xy, do_blocking_move_to)(start);
 
-    LOOP_L_N(s, strokes)
-      LOOP_L_N(i, NOZZLE_CLEAN_CIRCLE_FN)
+    for (uint8_t s = 0; s < strokes; ++s)
+      for (uint8_t i = 0; i < NOZZLE_CLEAN_CIRCLE_FN; ++i)
         do_blocking_move_to_xy(
           middle.x + sin((RADIANS(360) / NOZZLE_CLEAN_CIRCLE_FN) * i) * radius,
           middle.y + cos((RADIANS(360) / NOZZLE_CLEAN_CIRCLE_FN) * i) * radius
@@ -139,10 +158,23 @@ Nozzle nozzle;
    * @param pattern one of the available patterns
    * @param argument depends on the cleaning pattern
    */
-  void Nozzle::clean(const uint8_t &pattern, const uint8_t &strokes, const float &radius, const uint8_t &objects, const uint8_t cleans) {
+  void Nozzle::clean(const uint8_t &pattern, const uint8_t &strokes, const_float_t radius, const uint8_t &objects, const uint8_t cleans) {
     xyz_pos_t start[HOTENDS] = NOZZLE_CLEAN_START_POINT, end[HOTENDS] = NOZZLE_CLEAN_END_POINT, middle[HOTENDS] = NOZZLE_CLEAN_CIRCLE_MIDDLE;
 
     const uint8_t arrPos = ANY(SINGLENOZZLE, MIXING_EXTRUDER) ? 0 : active_extruder;
+
+    #if NOZZLE_CLEAN_MIN_TEMP > 20
+      if (thermalManager.degTargetHotend(arrPos) < NOZZLE_CLEAN_MIN_TEMP) {
+        #if ENABLED(NOZZLE_CLEAN_HEATUP)
+          SERIAL_ECHOLNPGM("Nozzle too Cold - Heating");
+          thermalManager.setTargetHotend(NOZZLE_CLEAN_MIN_TEMP, arrPos);
+          thermalManager.wait_for_hotend(arrPos);
+        #else
+          SERIAL_ECHOLNPGM("Nozzle too cold - Skipping wipe");
+          return;
+        #endif
+      }
+    #endif
 
     #if HAS_SOFTWARE_ENDSTOPS
 
@@ -152,7 +184,7 @@ Nozzle nozzle;
         LIMIT(   end[arrPos].A, soft_endstop.min.A, soft_endstop.max.A); \
       }while(0)
 
-      if (soft_endstops_enabled) {
+      if (soft_endstop.enabled()) {
 
         LIMIT_AXIS(x);
         LIMIT_AXIS(y);
@@ -193,6 +225,18 @@ Nozzle nozzle;
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
 
+  float Nozzle::park_mode_0_height(const_float_t park_z) {
+    // Apply a minimum raise, if specified. Use park.z as a minimum height instead.
+    return _MAX(park_z,                       // Minimum height over 0 based on input
+      _MIN(Z_MAX_POS,                         // Maximum height is fixed
+        #ifdef NOZZLE_PARK_Z_RAISE_MIN
+          NOZZLE_PARK_Z_RAISE_MIN +           // Minimum raise...
+        #endif
+        current_position.z                    // ...over current position
+      )
+    );
+  }
+
   void Nozzle::park(const uint8_t z_action, const xyz_pos_t &park/*=NOZZLE_PARK_POINT*/) {
     constexpr feedRate_t fr_xy = NOZZLE_PARK_XY_FEEDRATE, fr_z = NOZZLE_PARK_Z_FEEDRATE;
 
@@ -205,22 +249,23 @@ Nozzle nozzle;
         do_blocking_move_to_z(_MIN(current_position.z + park.z, Z_MAX_POS), fr_z);
         break;
 
-      default: {
-        // Apply a minimum raise, overriding G27 Z
-        const float min_raised_z =_MIN(Z_MAX_POS, current_position.z
-          #ifdef NOZZLE_PARK_Z_RAISE_MIN
-            + NOZZLE_PARK_Z_RAISE_MIN
-          #endif
-        );
-        do_blocking_move_to_z(_MAX(park.z, min_raised_z), fr_z);
-      } break;
+      default: // Raise by NOZZLE_PARK_Z_RAISE_MIN, use park.z as a minimum height
+        do_blocking_move_to_z(park_mode_0_height(park.z), fr_z);
+        break;
     }
 
-    do_blocking_move_to_xy(
-      TERN(NOZZLE_PARK_Y_ONLY, current_position, park).x,
-      TERN(NOZZLE_PARK_X_ONLY, current_position, park).y,
-      fr_xy
-    );
+    #ifndef NOZZLE_PARK_MOVE
+      #define NOZZLE_PARK_MOVE 0
+    #endif
+    switch (NOZZLE_PARK_MOVE) {
+      case 0: do_blocking_move_to_xy(park, fr_xy); break;
+      case 1: do_blocking_move_to_x(park.x, fr_xy); break;
+      case 2: do_blocking_move_to_y(park.y, fr_xy); break;
+      case 3: do_blocking_move_to_x(park.x, fr_xy);
+              do_blocking_move_to_y(park.y, fr_xy); break;
+      case 4: do_blocking_move_to_y(park.y, fr_xy);
+              do_blocking_move_to_x(park.x, fr_xy); break;
+    }
 
     report_current_position();
   }

@@ -22,7 +22,6 @@
 #ifndef DYN_SWI_H
 #define DYN_SWI_H
 
-
 #if defined(__arm__) || defined(ARDUINO_ARCH_PIC32)
 #ifdef ARDUINO_ARCH_PIC32
 #include <p32xxxx.h>
@@ -75,7 +74,7 @@ extern "C"
 #define NVIC_NUM_INTERRUPTS ((int)PERIPH_COUNT_IRQn)
 #endif
 #define VECTORTABLE_SIZE (NVIC_NUM_INTERRUPTS+16)
-#define VECTORTABLE_ALIGNMENT (0x100ul)
+#define VECTORTABLE_ALIGNMENT (0x100UL)
 #define NVIC_GET_ACTIVE(n) NVIC_GetActive((IRQn_Type)n)
 #define NVIC_GET_PENDING(n) NVIC_GetPendingIRQ((IRQn_Type)n)
 #define NVIC_SET_PENDING(n) NVIC_SetPendingIRQ((IRQn_Type)n)
@@ -134,7 +133,6 @@ extern "C"
 #else // Not CMSIS or PJRC CORE_TEENSY or PIC32 or SPRESENSE
 #error Do not know how to relocate IRQ vectors or perform SWI
 #endif // SWI_IRQ_NUM
-
 
 #ifndef SWI_IRQ_NUM
 #error SWI_IRQ_NUM not defined
