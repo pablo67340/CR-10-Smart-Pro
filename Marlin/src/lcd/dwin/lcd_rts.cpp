@@ -376,7 +376,7 @@ void RTSSHOW::RTS_Init(void)
       zig ^= true;
       for (int x = inStart; x != inStop; x += inInc)
       {
-        RTS_SndData(z_values[x][y] * 1000, AUTO_BED_LEVEL_1POINT_VP + showcount * 2);
+        RTS_SndData(LevelingBilinear::z_values[x][y] * 1000, AUTO_BED_LEVEL_1POINT_VP + showcount * 2);
         showcount++;
       }
     }
