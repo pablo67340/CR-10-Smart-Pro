@@ -128,6 +128,15 @@ const char* ui16tostr5rj(const uint16_t xx) {
   return &conv[3];
 }
 
+// Convert signed 16bit int to rj string with 123 or -12 format
+const char* i16tostr3rj(const int16_t x) {
+  int xx = x;
+  conv[4] = MINUSOR(xx, RJDIGIT(xx, 100));
+  conv[5] = RJDIGIT(xx, 10);
+  conv[6] = DIGIMOD(xx, 1);
+  return &conv[4];
+}
+
 // Convert unsigned 16bit int to string 1234 format
 const char* ui16tostr4rj(const uint16_t xx) {
   conv[4] = RJDIGIT(xx, 1000);

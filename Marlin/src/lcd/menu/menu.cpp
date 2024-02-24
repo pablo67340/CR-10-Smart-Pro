@@ -87,9 +87,9 @@ bool         MenuEditItemBase::liveEdit;
 
 void MarlinUI::return_to_status() { goto_screen(status_screen); }
 
-void MarlinUI::push_current_screen() {
+void MarlinUI::save_previous_screen() {
   if (screen_history_depth < COUNT(screen_history))
-    screen_history[screen_history_depth++] = { currentScreen, encoderPosition, encoderTopLine, screen_items OPTARG(HAS_SCREEN_TIMEOUT, screen_is_sticky()) };
+    screen_history[screen_history_depth++] = { currentScreen, encoderPosition, encoderTopLine, screen_items };
 }
 
 void MarlinUI::_goto_previous_screen(TERN_(TURBO_BACK_MENU_ITEM, const bool is_back/*=false*/)) {
@@ -145,7 +145,7 @@ void MenuEditItemBase::goto_edit_screen(
 ) {
   TERN_(HAS_TOUCH_BUTTONS, ui.on_edit_screen = true);
   ui.screen_changed = true;
-  ui.push_current_screen();
+  ui.save_previous_screen();
   ui.refresh();
   editLabel = el;
   editValue = ev;
@@ -234,7 +234,7 @@ void MarlinUI::goto_screen(screenFunc_t screen, const uint16_t encoder/*=0*/, co
 //
 void MarlinUI::synchronize(FSTR_P const fmsg/*=nullptr*/) {
   static FSTR_P sync_message = fmsg ?: GET_TEXT_F(MSG_MOVING);
-  push_current_screen();
+  save_previous_screen();
   goto_screen([]{
     if (should_draw()) MenuItem_static::draw(LCD_HEIGHT >= 4, sync_message);
   });

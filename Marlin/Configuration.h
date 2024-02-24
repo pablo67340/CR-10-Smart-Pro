@@ -2401,3 +2401,4 @@
 #define HAS_BUZZER true
 #define HAS_SPI_LCD 1
 #define HAS_LCD_MENU 1
+#define HAS_GRAPHICAL_LCD 1

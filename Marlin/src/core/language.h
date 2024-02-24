@@ -109,6 +109,7 @@
 #define STR_WATCHDOG_RESET                  " Watchdog Reset"
 #define STR_SOFTWARE_RESET                  " Software Reset"
 #define STR_AUTHOR                          " | Author: "
+#define STR_NO_MEDIA                        "No media"
 #define STR_CONFIGURATION_VER               " Last Updated: "
 #define STR_FREE_MEMORY                     " Free Memory: "
 #define STR_PLANNER_BUFFER_BYTES            "  PlannerBufferBytes: "
@@ -237,8 +238,10 @@
 #define STR_KILL_BUTTON                     "!! KILL caused by KILL button/pin"
 
 // temperature.cpp strings
+#define STR_PID_AUTOTUNE                    "PID Autotune"
 #define STR_PID_AUTOTUNE_START              "PID Autotune start"
 #define STR_PID_BAD_EXTRUDER_NUM            "PID Autotune failed! Bad extruder number"
+#define STR_PID_BAD_HEATER_ID               " failed! Bad heater id"
 #define STR_PID_TEMP_TOO_HIGH               "PID Autotune failed! Temperature too high"
 #define STR_PID_TIMEOUT                     "PID Autotune failed! timeout"
 #define STR_BIAS                            " bias: "

@@ -124,8 +124,6 @@
   #include "../../lcd/dwin/lcd_rts.h"
 #endif
 
-#include "../../lcd/language/language_en.h"
-
 #define EXTRUSION_MULTIPLIER 1.0
 #define PRIME_LENGTH 10.0
 #define OOZE_AMOUNT 0.3

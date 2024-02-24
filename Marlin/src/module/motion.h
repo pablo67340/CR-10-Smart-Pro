@@ -36,6 +36,7 @@
 
 // Error margin to work around float imprecision
 constexpr float fslop = 0.0001;
+extern uint8_t axis_homed, axis_known_position;
 
 extern bool relative_mode;
 

@@ -476,6 +476,21 @@ void CardReader::mount() {
   #include "../module/stepper.h"
 #endif
 
+void CardReader::startFileprint() {
+  if (isMounted()) {
+    flag.sdprinting = true;
+    TERN_(SD_RESORT, flush_presort());
+  }
+}
+
+void CardReader::endFilePrint(TERN_(SD_RESORT, const bool re_sort/*=false*/)) {
+  TERN_(ADVANCED_PAUSE_FEATURE, did_pause_print = 0);
+  TERN_(DWIN_CREALITY_LCD, HMI_flag.print_finish = flag.sdprinting);
+  flag.sdprinting = flag.abort_sd_printing = false;
+  if (isFileOpen()) file.close();
+  TERN_(SD_RESORT, if (re_sort) presort());
+}
+
 void CardReader::manage_media() {
   static uint8_t prev_stat = 2;     // At boot we don't know if media is present or not
   uint8_t stat = uint8_t(IS_SD_INSERTED());

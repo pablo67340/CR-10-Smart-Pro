@@ -316,7 +316,7 @@ millis_t MarlinUI::next_button_update_ms; // = 0
     }
   }
 
-  void MarlinUI::draw_select_screen_prompt(PGM_P const pref, const char * const string/*=nullptr*/, PGM_P const suff/*=nullptr*/)
+  void MarlinUI::draw_select_screen_prompt(FSTR_P const pref, const char * const string/*=nullptr*/, FSTR_P const suff/*=nullptr*/)
   {
     const uint8_t plen = utf8_strlen_P(pref), slen = suff ? utf8_strlen_P(suff) : 0;
     uint8_t col = 0, row = 0;
@@ -337,7 +337,7 @@ millis_t MarlinUI::next_button_update_ms; // = 0
     }
   }
 
-  void MarlinUI::draw_select_chinese_screen_prompt(PGM_P const pref, const char * const string/*=nullptr*/, PGM_P const suff/*=nullptr*/)
+  void MarlinUI::draw_select_chinese_screen_prompt(FSTR_P const pref, const char * const string/*=nullptr*/, FSTR_P const suff/*=nullptr*/)
   {
     const uint8_t plen = utf8_strlen_P(pref), slen = suff ? utf8_strlen_P(suff) : 0;
     uint8_t col = 0, row = 0;

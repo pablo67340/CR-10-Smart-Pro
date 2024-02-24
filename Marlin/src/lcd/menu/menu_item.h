@@ -41,7 +41,7 @@ class MenuItem_submenu : public MenuItemBase {
     FORCE_INLINE static void draw(const bool sel, const uint8_t row, FSTR_P const fstr, ...) {
       _draw(sel, row, fstr, '>', LCD_STR_ARROW_RIGHT[0]);
     }
-    static void action(FSTR_P const, const screenFunc_t func) { ui.push_current_screen(); ui.goto_screen(func); }
+    static void action(FSTR_P const, const screenFunc_t func) { ui.save_previous_screen(); ui.goto_screen(func); }
 };
 
 // Any menu item that invokes an immediate action
@@ -504,7 +504,7 @@ class MenuItem_bool : public MenuEditItemBase {
 
 #define _CONFIRM_ITEM_INNER_F(FLABEL, V...) do {             \
   if (CLICKED()) {                                           \
-    ui.push_current_screen();                                \
+    ui.save_previous_screen();                                \
     ui.goto_screen([]{MenuItem_confirm::select_screen(V);}); \
     return;                                                  \
   }                                                          \

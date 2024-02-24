@@ -112,6 +112,9 @@ typedef struct {
   // Job elapsed time
   millis_t print_job_elapsed;
 
+    // recovery flag
+  uint8_t recovery_flag;
+
   // Relative axis modes
   relative_t axis_relative;
 

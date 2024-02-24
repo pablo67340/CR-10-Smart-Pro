@@ -745,7 +745,7 @@ void MarlinUI::draw_status_screen() {
 
     // Progress strings
     if (PAGE_CONTAINS(EXTRAS_BASELINE - INFO_FONT_ASCENT, EXTRAS_BASELINE - 1)){
-      ui.rotate_progress();
+      //ui.rotate_progress(); untested
       lcd_put_u8str(PROGRESS_BAR_X, EXTRAS_BASELINE, bufferc);
     }
   #endif

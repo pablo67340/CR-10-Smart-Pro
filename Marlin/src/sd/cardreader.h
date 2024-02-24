@@ -123,6 +123,8 @@ public:
 
   // SD Card Logging
   static void openLogFile(const char * const path);
+  static void startFileprint();
+  static void endFilePrint(TERN_(SD_RESORT, const bool re_sort=false));
   static void write_command(char * const buf);
 
   #if DISABLED(NO_SD_AUTOSTART)     // Auto-Start auto#.g file handling

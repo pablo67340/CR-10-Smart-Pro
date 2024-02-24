@@ -44,6 +44,9 @@ const char* i8tostr3rj(const int8_t x);
   const char* permyriadtostr4(const uint16_t xx);
 #endif
 
+// Declare the missing function
+const char* i16tostr3rj(const int16_t x);
+
 // Convert float to rj string with 123 or -12 format
 FORCE_INLINE const char* ftostr3(const float &x) { return i16tostr3rj(int16_t(x + (x < 0 ? -0.5f : 0.5f))); }
 

@@ -91,10 +91,7 @@ void GcodeSuite::M140_M190(const bool isM190) {
     thermalManager.wait_for_bed(no_wait_for_cooling);
   }
   else {
-    ui.set_status_reset_fn([]{
-      const celsius_t c = thermalManager.degTargetBed();
-      return c < 30 || thermalManager.degBedNear(c);
-    });
+    ui.set_status_P(thermalManager.isHeatingBed() ? GET_TEXT(MSG_BED_HEATING) : GET_TEXT(MSG_BED_COOLING));
   }
 }
 
