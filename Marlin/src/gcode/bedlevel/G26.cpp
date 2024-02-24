@@ -120,6 +120,12 @@
   #include "../../feature/bedlevel/hilbert_curve.h"
 #endif
 
+#if ENABLED(RTS_AVAILABLE)
+  #include "../../lcd/dwin/lcd_rts.h"
+#endif
+
+#include "../../lcd/language/language_en.h"
+
 #define EXTRUSION_MULTIPLIER 1.0
 #define PRIME_LENGTH 10.0
 #define OOZE_AMOUNT 0.3
@@ -162,7 +168,7 @@ float g26_random_deviation = 0.0;
    */
   bool user_canceled() {
     if (!ui.button_pressed()) return false; // Return if the button isn't pressed
-    LCD_MESSAGE_MAX(MSG_G26_CANCELED);
+    LCD_MESSAGE(MSG_G26_CANCELED);
     ui.quick_feedback();
     ui.wait_for_release();
     return true;
@@ -321,7 +327,7 @@ typedef struct {
     #if HAS_HEATED_BED
 
       if (bed_temp > 25) {
-        LCD_MESSAGE_MAX(MSG_G26_HEATING_BED);
+        LCD_MESSAGE(MSG_G26_HEATING_BED);
         ui.quick_feedback();
         TERN_(HAS_MARLINUI_MENU, ui.capture());
         thermalManager.setTargetBed(bed_temp);
@@ -338,7 +344,7 @@ typedef struct {
     #endif // HAS_HEATED_BED
 
     // Start heating the active nozzle
-    LCD_MESSAGE_MAX(MSG_G26_HEATING_NOZZLE);
+    LCD_MESSAGE(MSG_G26_HEATING_NOZZLE);
     ui.quick_feedback();
     thermalManager.setTargetHotend(hotend_temp, active_extruder);
 
@@ -365,7 +371,7 @@ typedef struct {
 
       if (prime_flag == -1) {  // The user wants to control how much filament gets purged
         ui.capture();
-        LCD_MESSAGE_MAX(MSG_G26_MANUAL_PRIME);
+        LCD_MESSAGE(MSG_G26_MANUAL_PRIME);
         ui.chirp();
 
         destination = current_position;
@@ -392,14 +398,14 @@ typedef struct {
 
         ui.wait_for_release();
 
-        LCD_MESSAGE_MAX(MSG_G26_PRIME_DONE);
+        LCD_MESSAGE(MSG_G26_PRIME_DONE);
         ui.quick_feedback();
         ui.release();
       }
       else
     #endif
     {
-      LCD_MESSAGE_MAX(MSG_G26_FIXED_LENGTH);
+      LCD_MESSAGE(MSG_G26_FIXED_LENGTH);
       ui.quick_feedback();
       destination = current_position;
       destination.e += prime_length;
@@ -845,7 +851,7 @@ void GcodeSuite::G26() {
   } while (--g26_repeats && location.valid());
 
   LEAVE:
-  LCD_MESSAGE_MIN(MSG_G26_LEAVING);
+  LCD_MESSAGE(MSG_G26_LEAVING);
   TERN_(EXTENSIBLE_UI, ExtUI::onMeshUpdate(location, ExtUI::G26_FINISH));
 
   g26.retract_filament(destination);

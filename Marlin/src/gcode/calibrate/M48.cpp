@@ -81,7 +81,7 @@ void GcodeSuite::M48() {
   };
 
   if (!probe.can_reach(test_position)) {
-    LCD_MESSAGE_MAX(MSG_M48_OUT_OF_BOUNDS);
+    LCD_MESSAGE(MSG_M48_OUT_OF_BOUNDS);
     SERIAL_ECHOLNPGM("? (X,Y) out of bounds.");
     return;
   }
@@ -151,7 +151,7 @@ void GcodeSuite::M48() {
     for (uint8_t n = 0; n < n_samples; ++n) {
       #if HAS_STATUS_MESSAGE
         // Display M48 progress in the status bar
-        ui.status_printf(0, F(S_FMT ": %d/%d"), GET_TEXT(MSG_M48_POINT), int(n + 1), int(n_samples));
+        ui.status_printf(0, PSTR(S_FMT ": %d/%d"), GET_TEXT(MSG_M48_POINT), int(n + 1), int(n_samples));
       #endif
 
       // When there are "legs" of movement move around the point before probing
@@ -266,8 +266,10 @@ void GcodeSuite::M48() {
 
     #if HAS_STATUS_MESSAGE
       // Display M48 results in the status bar
-      char sigma_str[8];
-      ui.status_printf(0, F(S_FMT ": %s"), GET_TEXT(MSG_M48_DEVIATION), dtostrf(sigma, 2, 6, sigma_str));
+      char sigma_str[8]; // Ensure this buffer is large enough for the result
+      dtostrf(sigma, 2, 6, sigma_str); // Convert the float 'sigma' to a string with 2 digits before and 6 digits after the decimal point
+
+      ui.status_printf(0, PSTR(S_FMT ": %s"), GET_TEXT(MSG_M48_DEVIATION), sigma_str);
     #endif
   }
 

@@ -397,6 +397,7 @@ class RTSSHOW
 };
 
 extern RTSSHOW rtscheck;
+extern uint8_t language_change_font;
 
 #if ENABLED(HAS_MENU_RESET_WIFI)
   enum sWIFI_STATE

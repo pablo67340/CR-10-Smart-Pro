@@ -667,9 +667,9 @@ void MarlinUI::status_screen() {
   draw_status_screen();
 }
 
-void MarlinUI::kill_screen(PGM_P lcd_error, PGM_P lcd_component) {
+void MarlinUI::kill_screen(FSTR_P lcd_error, FSTR_P lcd_component) {
   init();
-  status_printf_P(1, PSTR(S_FMT ": " S_FMT), lcd_error, lcd_component);
+  status_printf(1, PSTR(S_FMT ": " S_FMT), lcd_error, lcd_component);
   TERN_(HAS_LCD_MENU, return_to_status());
 
   // RED ALERT. RED ALERT.
@@ -718,7 +718,7 @@ void MarlinUI::quick_feedback(const bool clear_buttons/*=true*/) {
   TERN_(IS_KINEMATIC, float ManualMove::offset = 0);
   TERN_(IS_KINEMATIC, bool ManualMove::processing = false);
   TERN_(MULTI_MANUAL, int8_t ManualMove::e_index = 0);
-  uint8_t ManualMove::axis = (uint8_t)NO_AXIS;
+  uint8_t ManualMove::axis = (uint8_t)NO_AXIS_ENUM;
 
   /**
    * If a manual move has been posted and its time has arrived, and if the planner
@@ -744,7 +744,7 @@ void MarlinUI::quick_feedback(const bool clear_buttons/*=true*/) {
     if (processing) return;   // Prevent re-entry from idle() calls
 
     // Add a manual move to the queue?
-    if (axis != (uint8_t)NO_AXIS && ELAPSED(millis(), start_time) && !planner.is_full()) {
+    if (axis != (uint8_t)NO_AXIS_ENUM && ELAPSED(millis(), start_time) && !planner.is_full()) {
 
       const feedRate_t fr_mm_s = (uint8_t(axis) <= E_AXIS) ? manual_feedrate_mm_s[axis] : XY_PROBE_FEEDRATE_MM_S;
 
@@ -782,7 +782,7 @@ void MarlinUI::quick_feedback(const bool clear_buttons/*=true*/) {
 
         //SERIAL_ECHOLNPAIR("Add planner.move with Axis ", int(axis), " at FR ", fr_mm_s);
 
-        axis = (uint8_t)NO_AXIS;
+        axis = (uint8_t)NO_AXIS_ENUM;
 
       #endif
     }
@@ -1431,7 +1431,7 @@ void MarlinUI::update() {
 
   #include <stdarg.h>
 
-  void MarlinUI::status_printf_P(const uint8_t level, PGM_P const fmt, ...) {
+  void MarlinUI::status_printf(const uint8_t level, PGM_P const fmt, ...) {
     if (level < alert_level) return;
     alert_level = level;
     va_list args;
@@ -1630,7 +1630,7 @@ void MarlinUI::update() {
   void MarlinUI::set_status_P(PGM_P message, const int8_t) {
     TERN(HOST_PROMPT_SUPPORT, host_action_notify_P(message), UNUSED(message));
   }
-  void MarlinUI::status_printf_P(const uint8_t, PGM_P const message, ...) {
+  void MarlinUI::status_printf(const uint8_t, PGM_P const message, ...) {
     TERN(HOST_PROMPT_SUPPORT, host_action_notify_P(message), UNUSED(message));
   }
 

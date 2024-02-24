@@ -64,6 +64,12 @@ void startOrResumeJob();
 bool printer_busy();
 
 extern bool wait_for_heatup;
+extern uint8_t language_change_font;
+extern uint8_t wifi_enable_flag;
+
+#if ENABLED(RTS_AVAILABLE)
+  #include "lcd/dwin/lcd_rts.h"
+#endif
 
 #if HAS_RESUME_CONTINUE
   extern bool wait_for_user;

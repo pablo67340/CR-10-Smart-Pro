@@ -196,7 +196,7 @@ inline void serial_println(FSTR_P const fstr) { serial_println_P(FTOP(fstr)); }
 #define __SELP_N(N,V...)          _SELP_##N(V)
 #define _SELP_N(N,V...)           __SELP_N(N,V)
 #define _SELP_N_REF()             _SELP_N
-#define _SELP_1(s)                serial_print(F(s "\n"));
+#define _SELP_1(s) do { serial_print(F(s)); serial_print(F("\n")); } while(0)
 #define _SELP_2(s,v)              serial_echolnpair(F(s),v);
 #define _SELP_3(s,v,V...)         _SEP_2(s,v); DEFER2(_SELP_N_REF)()(TWO_ARGS(V),V);
 #define SERIAL_ECHOLNPGM(V...)    do{ EVAL(_SELP_N(TWO_ARGS(V),V)); }while(0)

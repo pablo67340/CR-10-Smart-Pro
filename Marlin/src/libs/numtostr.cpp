@@ -105,6 +105,19 @@ const char* i8tostr3rj(const int8_t x) {
   }
 #endif
 
+// Convert unsigned float to string with ____4.5, __34.5, _234.5, 1234.5 format
+const char* ftostr51rj(const float &f) {
+  const long i = UINTFLOAT(f, 1);
+  conv[0] = ' ';
+  conv[1] = RJDIGIT(i, 10000);
+  conv[2] = RJDIGIT(i, 1000);
+  conv[3] = RJDIGIT(i, 100);
+  conv[4] = DIGIMOD(i, 10);
+  conv[5] = '.';
+  conv[6] = DIGIMOD(i, 1);
+  return conv;
+}
+
 // Convert unsigned 16bit int to string 12345 format
 const char* ui16tostr5rj(const uint16_t xx) {
   conv[3] = RJDIGIT(xx, 10000);

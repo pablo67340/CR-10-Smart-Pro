@@ -96,6 +96,7 @@ int last_target_temperature[4] = {0};
 int last_target_temperature_bed;
 char waitway = 0;
 int change_page_font = 1;
+extern uint8_t language_change_font;
 unsigned char Percentrecord = 0;
 // represents to update file list
 bool CardUpdate = false;

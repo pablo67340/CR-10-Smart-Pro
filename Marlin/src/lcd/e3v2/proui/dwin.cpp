@@ -2378,7 +2378,7 @@ void TramC () { Tram(4); }
 
   void Trammingwizard() {
     if (HMI_data.FullManualTramming) {
-      LCD_MESSAGE_F("Disable manual tramming");
+      LCD_MESSAGE("Disable manual tramming");
       return;
     }
     bed_mesh_t zval = {0};
@@ -3103,7 +3103,7 @@ void Draw_Move_Menu() {
     #endif
   }
   UpdateMenu(MoveMenu);
-  if (!all_axes_trusted()) LCD_MESSAGE_F("WARNING: Current position unknown. Home axes.");
+  if (!all_axes_trusted()) LCD_MESSAGE("WARNING: Current position unknown. Home axes.");
 }
 
 #if HAS_HOME_OFFSET
@@ -3519,7 +3519,7 @@ void Draw_Steps_Menu() {
       EDIT_ITEM(ICON_Zoffset, MSG_ZPROBE_ZOFFSET, onDrawPFloat2Menu, SetZOffset, &BABY_Z_VAR);
     }
     UpdateMenu(ZOffsetWizMenu);
-    if (!axis_is_trusted(Z_AXIS)) LCD_MESSAGE_F("WARNING: Z position unknown, move Z to home");
+    if (!axis_is_trusted(Z_AXIS)) LCD_MESSAGE("WARNING: Z position unknown, move Z to home");
   }
 
 #endif

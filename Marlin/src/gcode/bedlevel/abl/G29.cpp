@@ -699,7 +699,9 @@ G29_TYPE GcodeSuite::G29() {
           if (TERN0(IS_KINEMATIC, !probe.can_reach(abl.probePos))) continue;
 
           if (abl.verbose_level) SERIAL_ECHOLNPGM("Probing mesh point ", pt_index, "/", abl.abl_points, ".");
-          TERN_(HAS_STATUS_MESSAGE, ui.status_printf(0, F(S_FMT " %i/%i"), GET_TEXT(MSG_PROBING_POINT), int(pt_index), int(abl.abl_points)));
+          TERN_(HAS_STATUS_MESSAGE, ({
+            ui.status_printf(0, PSTR(S_FMT " %i/%i"), GET_TEXT(MSG_PROBING_POINT), static_cast<uint8_t>(pt_index), static_cast<uint8_t>(abl.abl_points));
+          }));
 
           abl.measured_z = faux ? 0.001f * random(-100, 101) : probe.probe_at_point(abl.probePos, raise_after, abl.verbose_level);
 

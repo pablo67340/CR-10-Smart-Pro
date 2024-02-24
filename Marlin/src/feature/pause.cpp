@@ -95,6 +95,10 @@ fil_change_settings_t fc_settings[EXTRUDERS];
   #include "../sd/cardreader.h"
 #endif
 
+#if ENABLED(RTS_AVAILABLE)
+  #include "../lcd/dwin/lcd_rts.h"
+#endif
+
 #if ENABLED(EMERGENCY_PARSER)
   #define _PMSG(L) L##_M108
 #else

@@ -44,6 +44,12 @@ const char* i8tostr3rj(const int8_t x);
   const char* permyriadtostr4(const uint16_t xx);
 #endif
 
+// Convert float to rj string with 123 or -12 format
+FORCE_INLINE const char* ftostr3(const float &x) { return i16tostr3rj(int16_t(x + (x < 0 ? -0.5f : 0.5f))); }
+
+// Convert unsigned float to string with 1234.5 format omitting trailing zeros
+const char* ftostr51rj(const float &x);
+
 // Convert uint16_t to string with 12345 format
 const char* ui16tostr5rj(const uint16_t x);
 

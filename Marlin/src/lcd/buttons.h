@@ -30,7 +30,7 @@
   #define HAS_DIGITAL_BUTTONS 1
 #endif
 #if !HAS_ADC_BUTTONS && (IS_RRW_KEYPAD || (HAS_WIRED_LCD && !IS_NEWPANEL))
-  #define HAS_SHIFT_ENCODER 1
+  //#define HAS_SHIFT_ENCODER 1
 #endif
 
 // I2C buttons must be read in the main thread

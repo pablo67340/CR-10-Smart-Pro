@@ -49,6 +49,10 @@ GCodeQueue queue;
   #include "../feature/repeat.h"
 #endif
 
+#if ENABLED(RTS_AVAILABLE)
+  #include "../lcd/dwin/lcd_rts.h"
+#endif
+
 // Frequently used G-code strings
 PGMSTR(G28_STR, "G28");
 

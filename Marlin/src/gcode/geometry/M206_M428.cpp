@@ -89,7 +89,7 @@ void GcodeSuite::M428() {
       diff[i] = -current_position[i];
     if (!WITHIN(diff[i], -20, 20)) {
       SERIAL_ERROR_MSG(STR_ERR_M428_TOO_FAR);
-      LCD_ALERTMESSAGE(MSG_ERR_M428_TOO_FAR);
+      LCD_ALLERTMESSAGE(MSG_ERR_M428_TOO_FAR);
       ERR_BUZZ();
       return;
     }

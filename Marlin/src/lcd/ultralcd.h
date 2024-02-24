@@ -41,7 +41,7 @@
   #define HAS_DIGITAL_BUTTONS 1
 #endif
 #if !HAS_ADC_BUTTONS && (ENABLED(REPRAPWORLD_KEYPAD) || (HAS_SPI_LCD && DISABLED(NEWPANEL)))
-  #define HAS_SHIFT_ENCODER 1
+  //#define HAS_SHIFT_ENCODER 1
 #endif
 
 // I2C buttons must be read in the main thread
@@ -477,11 +477,11 @@ public:
     #endif
 
     static bool get_blink();
-    static void kill_screen(PGM_P const lcd_error, PGM_P const lcd_component);
+    static void kill_screen(FSTR_P const lcd_error, FSTR_P const lcd_component);
     static void draw_kill_screen();
     static void set_status(const char* const message, const bool persist=false);
     static void set_status_P(PGM_P const message, const int8_t level=0);
-    static void status_printf_P(const uint8_t level, PGM_P const fmt, ...);
+    static void status_printf(const uint8_t level, PGM_P const fmt, ...);
     static void reset_status(const bool no_welcome=false);
 
   #else // No LCD
@@ -489,7 +489,7 @@ public:
     // Send status to host as a notification
     static void set_status(const char* message, const bool=false);
     static void set_status_P(PGM_P message, const int8_t=0);
-    static void status_printf_P(const uint8_t, PGM_P message, ...);
+    static void status_printf(const uint8_t, PGM_P message, ...);
 
     static inline void init() {}
     static inline void update() {}
@@ -703,8 +703,8 @@ private:
 
 extern MarlinUI ui;
 
-#define LCD_MESSAGEPGM_P(x)      ui.set_status_P(x)
-#define LCD_ALERTMESSAGEPGM_P(x) ui.set_alert_status_P(x)
+#define LCD_MESSAGE_P(x)      ui.set_status_P(x)
+#define LCD_ALERTMESSAGE_P(x) ui.set_alert_status_P(x)
 
-#define LCD_MESSAGEPGM(x)        LCD_MESSAGEPGM_P(GET_TEXT(x))
-#define LCD_ALERTMESSAGEPGM(x)   LCD_ALERTMESSAGEPGM_P(GET_TEXT(x))
+#define LCD_MESSAGE(x)        LCD_MESSAGE_P(GET_TEXT(x))
+#define LCD_ALLERTMESSAGE(x)   LCD_ALERTMESSAGE_P(GET_TEXT(x))

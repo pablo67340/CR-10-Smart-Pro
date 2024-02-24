@@ -423,8 +423,8 @@ namespace Language_en {
   LSTR MSG_TEMPERATURE                    = _UxGT("Temperature");
   LSTR MSG_MOTION                         = _UxGT("Motion");
   LSTR MSG_FILAMENT                       = _UxGT("Filament");
-  LSTR MSG_VOLUMETRIC_ENABLED             = _UxGT("E in mm") SUPERSCRIPT_THREE;
-  LSTR MSG_VOLUMETRIC_LIMIT               = _UxGT("E Limit in mm") SUPERSCRIPT_THREE;
+  LSTR MSG_VOLUMETRIC_ENABLED             = _UxGT("E in mm");
+  LSTR MSG_VOLUMETRIC_LIMIT               = _UxGT("E Limit in mm");
   LSTR MSG_VOLUMETRIC_LIMIT_E             = _UxGT("E Limit *");
   LSTR MSG_FILAMENT_DIAM                  = _UxGT("Fil. Dia.");
   LSTR MSG_FILAMENT_DIAM_E                = _UxGT("Fil. Dia. *");

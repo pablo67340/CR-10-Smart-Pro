@@ -484,12 +484,12 @@ void fast_line_to_current(const AxisEnum fr_axis) { _line_to_current(fr_axis, 0.
       #endif
 
       if (check_tool_sensor_stats(0)) {
-        LCD_MESSAGE_F("TC error");
+        LCD_MESSAGE("TC error");
         switching_toolhead_lock(false);
         while (check_tool_sensor_stats(0)) { /* nada */ }
         switching_toolhead_lock(true);
       }
-      LCD_MESSAGE_F("TC Success");
+      LCD_MESSAGE("TC Success");
     #endif // TOOL_SENSOR
   }
 

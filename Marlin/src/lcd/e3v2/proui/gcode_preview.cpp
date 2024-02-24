@@ -162,7 +162,7 @@ bool Has_Preview() {
 
   if (!fileprop.thumbstart) {
     card.closefile();
-    LCD_MESSAGE_F("Thumbnail not found");
+    LCD_MESSAGE("Thumbnail not found");
     return 0;
   }
 
@@ -183,7 +183,7 @@ bool Has_Preview() {
   // Exit if there isn't a thumbnail
   if (!fileprop.thumbsize) {
     card.closefile();
-    LCD_MESSAGE_F("Invalid Thumbnail Size");
+    LCD_MESSAGE("Invalid Thumbnail Size");
     return 0;
   }
 
