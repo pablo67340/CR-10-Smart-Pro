@@ -46,7 +46,7 @@
 #endif
 
 #include "../buttons.h" // For EN_C bit mask
-#include "../ultralcd.h" // For ui.refresh
+#include "../marlinui.h" // For ui.refresh
 #include "../tft_io/tft_io.h"
 
 #define DOGM_AREA_LEFT   TFT_PIXEL_OFFSET_X

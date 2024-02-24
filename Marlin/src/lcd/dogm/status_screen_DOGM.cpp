@@ -31,7 +31,7 @@
 
 #include "dogm_Statusscreen.h"
 #include "marlinui_DOGM.h"
-#include "../ultralcd.h"
+#include "../marlinui.h"
 #include "../lcdprint.h"
 #include "../../libs/numtostr.h"
 

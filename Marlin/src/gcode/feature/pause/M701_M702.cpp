@@ -29,7 +29,7 @@
 #include "../../../module/motion.h"
 #include "../../../module/temperature.h"
 #include "../../../feature/pause.h"
-#include "../../../lcd/ultralcd.h"
+#include "../../../lcd/marlinui.h"
 
 #if HAS_MULTI_EXTRUDER
   #include "../../../module/tool_change.h"

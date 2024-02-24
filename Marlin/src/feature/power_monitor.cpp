@@ -27,7 +27,7 @@
 #include "power_monitor.h"
 
 #if HAS_MARLINUI_MENU
-  #include "../lcd/ultralcd.h"
+  #include "../lcd/marlinui.h"
   #include "../lcd/lcdprint.h"
 #endif
 

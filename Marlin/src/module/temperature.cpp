@@ -29,7 +29,7 @@
 
 #include "../MarlinCore.h"
 #include "../HAL/shared/Delay.h"
-#include "../lcd/ultralcd.h"
+#include "../lcd/marlinui.h"
 #include "../gcode/gcode.h"
 
 #include "temperature.h"

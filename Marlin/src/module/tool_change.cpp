@@ -47,7 +47,7 @@
 #endif
 
 #if ENABLED(TOOL_SENSOR)
-  #include "../lcd/ultralcd.h"
+  #include "../lcd/marlinui.h"
 #endif
 
 #if ENABLED(DUAL_X_CARRIAGE)
@@ -81,7 +81,7 @@
 #endif
 
 #if HAS_MARLINUI_MENU
-  #include "../lcd/ultralcd.h"
+  #include "../lcd/marlinui.h"
 #endif
 
 #if ENABLED(ADVANCED_PAUSE_FEATURE)

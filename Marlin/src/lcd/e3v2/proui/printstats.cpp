@@ -35,7 +35,7 @@
 
 #include "../../../core/types.h"
 #include "../../../MarlinCore.h"
-#include "../../ultralcd.h"
+#include "../../marlinui.h"
 #include "../../../module/printcounter.h"
 #include "dwin_lcd.h"
 #include "dwinui.h"

@@ -32,7 +32,7 @@
  */
 
 #include "marlinui_HD44780.h"
-#include "../ultralcd.h"
+#include "../marlinui.h"
 #include "../../libs/numtostr.h"
 
 #include "../../sd/cardreader.h"

@@ -25,7 +25,7 @@
 #if HAS_PREHEAT
 
 #include "../gcode.h"
-#include "../../lcd/ultralcd.h"
+#include "../../lcd/marlinui.h"
 
 #if HAS_HOTEND
   #include "../../module/temperature.h"

@@ -25,7 +25,7 @@
 #if ENABLED(MPCTEMP)
 
 #include "../gcode.h"
-#include "../../lcd/ultralcd.h"
+#include "../../lcd/marlinui.h"
 #include "../../module/temperature.h"
 
 /**

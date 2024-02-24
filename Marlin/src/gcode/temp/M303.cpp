@@ -26,7 +26,7 @@
 
 #include "../gcode.h"
 #include "../queue.h" // for flush_tx
-#include "../../lcd/ultralcd.h"
+#include "../../lcd/marlinui.h"
 #include "../../module/temperature.h"
 
 #if ENABLED(EXTENSIBLE_UI)

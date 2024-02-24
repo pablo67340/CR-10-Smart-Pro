@@ -30,7 +30,7 @@
 
 #include "dwin.h"
 
-#include "../../ultralcd.h"
+#include "../../marlinui.h"
 #include "../../../MarlinCore.h"
 
 #include "../../../gcode/gcode.h"

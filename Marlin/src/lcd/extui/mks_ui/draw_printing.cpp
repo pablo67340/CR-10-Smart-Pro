@@ -40,7 +40,7 @@
 #endif
 
 #if ENABLED(SET_REMAINING_TIME)
-  #include "../../ultralcd.h"
+  #include "../../marlinui.h"
 #endif
 
 extern lv_group_t *g;

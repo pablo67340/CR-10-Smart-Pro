@@ -36,7 +36,7 @@
 #include <lvgl.h>
 
 #include "../../../MarlinCore.h"
-#include "../../ultralcd.h"
+#include "../../marlinui.h"
 
 #include "../../../inc/MarlinConfig.h"
 

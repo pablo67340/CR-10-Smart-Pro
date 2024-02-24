@@ -50,7 +50,7 @@
 #include "ili9328.h"
 
 #if HAS_LCD_BRIGHTNESS
-  #include "../ultralcd.h"
+  #include "../marlinui.h"
 #endif
 
 #define DEBUG_OUT ENABLED(DEBUG_GRAPHICAL_TFT)

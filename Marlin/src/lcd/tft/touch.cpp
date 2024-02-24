@@ -26,7 +26,7 @@
 
 #include "touch.h"
 
-#include "../ultralcd.h"  // for ui methods
+#include "../marlinui.h"  // for ui methods
 #include "../menu/menu_item.h" // for MSG_FIRST_FAN_SPEED
 
 #include "../../module/temperature.h"

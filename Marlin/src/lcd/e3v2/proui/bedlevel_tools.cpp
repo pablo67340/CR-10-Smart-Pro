@@ -48,7 +48,7 @@
 
 #if ALL(DWIN_LCD_PROUI, HAS_LEVELING)
 
-#include "../../ultralcd.h"
+#include "../../marlinui.h"
 #include "../../../core/types.h"
 #include "../../../feature/bedlevel/bedlevel.h"
 #include "../../../module/probe.h"

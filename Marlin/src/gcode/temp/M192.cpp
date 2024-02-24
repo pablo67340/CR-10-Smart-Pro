@@ -30,7 +30,7 @@
 
 #include "../gcode.h"
 #include "../../module/temperature.h"
-#include "../../lcd/ultralcd.h"
+#include "../../lcd/marlinui.h"
 
 /**
  * M192: Wait for probe temperature sensor to reach a target

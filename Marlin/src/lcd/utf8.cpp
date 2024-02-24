@@ -32,7 +32,7 @@
 #include "../inc/MarlinConfig.h"
 
 #if HAS_WIRED_LCD
-  #include "ultralcd.h"
+  #include "marlinui.h"
   #include "../MarlinCore.h"
 #endif
 

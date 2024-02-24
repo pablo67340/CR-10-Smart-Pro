@@ -13,7 +13,7 @@
 
 #include "marlinui_DOGM.h"
 
-#include "../ultralcd.h"
+#include "../marlinui.h"
 #include "../../MarlinCore.h"
 
 #include "../utf8.h"

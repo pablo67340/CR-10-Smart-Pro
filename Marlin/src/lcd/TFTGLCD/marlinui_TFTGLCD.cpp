@@ -43,7 +43,7 @@
 #endif
 
 #include "marlinui_TFTGLCD.h"
-#include "../ultralcd.h"
+#include "../marlinui.h"
 #include "../../libs/numtostr.h"
 
 #include "../../sd/cardreader.h"

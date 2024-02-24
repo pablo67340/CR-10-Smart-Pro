@@ -37,7 +37,7 @@
 
 #if IS_TFTGLCD_PANEL
 
-#include "../ultralcd.h"
+#include "../marlinui.h"
 #include "../../MarlinCore.h"
 #include "../../libs/numtostr.h"
 

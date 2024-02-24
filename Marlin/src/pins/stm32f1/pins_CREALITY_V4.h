@@ -69,7 +69,7 @@
 //
 #ifndef SERVO0_PIN
   #ifndef HAS_PIN_27_BOARD
-    #define SERVO0_PIN                          PC14   // BLTouch OUT PIN
+    #define SERVO0_PIN                      PB0   // BLTouch OUT
   #else
     #define SERVO0_PIN                      PC6
   #endif
@@ -79,23 +79,13 @@
 // Limit Switches
 //
 #ifndef X_STOP_PIN
-  #define X_STOP_PIN                        PC4
+  #define X_STOP_PIN                        PA5
 #endif
 #ifndef Y_STOP_PIN
-  #define Y_STOP_PIN                        PC5
+  #define Y_STOP_PIN                        PA6
 #endif
-
-
-// Servos
-//
-#if ENABLED(BLTOUCH)
-  #define Z_STOP_PIN                           PC15   // BLTouch IN PIN
-#elif ENABLED(PROBE_ACTIVATION_SWITCH)
-  #define Z_STOP_PIN                           PC15
-  #define PROBE_TARE_PIN                      PC14
-  #define PROBE_ACTIVATION_SWITCH_PIN         PB2
-#else
-  #define Z_MIN_PIN                           PC15
+#ifndef Z_STOP_PIN
+  #define Z_STOP_PIN                        PA7
 #endif
 
 #ifndef Z_MIN_PROBE_PIN
@@ -106,64 +96,61 @@
 // Filament Runout Sensor
 //
 #ifndef FIL_RUNOUT_PIN
-  #define FIL_RUNOUT_PIN                    PA15   // "Pulled-high"
+  #define FIL_RUNOUT_PIN                    PA4   // "Pulled-high"
 #endif
 
 //
 // Steppers
 //
 #ifndef X_STEP_PIN
-  #define X_STEP_PIN                        PB8
+  #define X_STEP_PIN                        PC2
 #endif
 #ifndef X_DIR_PIN
-  #define X_DIR_PIN                         PB7
+  #define X_DIR_PIN                         PB9
 #endif
 #define X_ENABLE_PIN                        PC3   // Shared
 
 #ifndef Y_STEP_PIN
-  #define Y_STEP_PIN                        PB6
+  #define Y_STEP_PIN                        PB8
 #endif
 #ifndef Y_DIR_PIN
-  #define Y_DIR_PIN                         PB5
+  #define Y_DIR_PIN                         PB7
 #endif
 #define Y_ENABLE_PIN                X_ENABLE_PIN
 
 #ifndef Z_STEP_PIN
-  #define Z_STEP_PIN                        PB4
+  #define Z_STEP_PIN                        PB6
 #endif
 #ifndef Z_DIR_PIN
-  #define Z_DIR_PIN                         PB3
+  #define Z_DIR_PIN                         PB5
 #endif
 #define Z_ENABLE_PIN                X_ENABLE_PIN
 
 #ifndef E0_STEP_PIN
-  #define E0_STEP_PIN                       PC2
+  #define E0_STEP_PIN                       PB4
 #endif
 #ifndef E0_DIR_PIN
-  #define E0_DIR_PIN                        PB9
+  #define E0_DIR_PIN                        PB3
 #endif
 #define E0_ENABLE_PIN               X_ENABLE_PIN
 
 //
 // Temperature Sensors
 //
-#define TEMP_0_PIN                          PB1   // TH1
-#define TEMP_BED_PIN                        PB0   // TB1
+#define TEMP_0_PIN                          PC5   // TH1
+#define TEMP_BED_PIN                        PC4   // TB1
 
 //
 // Heaters / Fans
 //
 #ifndef HEATER_0_PIN
-  #define HEATER_0_PIN                      PB14   // HEATER1
+  #define HEATER_0_PIN                      PA1   // HEATER1
 #endif
 #ifndef HEATER_BED_PIN
-  #define HEATER_BED_PIN                    PB13   // HOT BED
+  #define HEATER_BED_PIN                    PA2   // HOT BED
 #endif
 #ifndef FAN0_PIN
   #define FAN0_PIN                          PA0   // FAN
-#endif
-#ifndef FAN1_PIN
-  #define FAN1_PIN                          PC13    // FAN
 #endif
 #define FAN_SOFT_PWM_REQUIRED
 
@@ -173,8 +160,6 @@
 #define SD_DETECT_PIN                       PC7
 #define SDCARD_CONNECTION ONBOARD
 #define ONBOARD_SDIO
-#define ON_BOARD_SPI_DEVICE                    1
-#define ONBOARD_SD_CS_PIN                   PC12   // SDSS
 #define NO_SD_HOST_DRIVE                          // This board's SD is only seen by the printer
 
 #if ANY(RET6_12864_LCD, HAS_DWIN_E3V2, IS_DWIN_MARLINUI)
@@ -191,11 +176,12 @@
    */
   #define EXP3_01_PIN                       PC6
   #define EXP3_02_PIN                       PB2
-  #define EXP3_03_PIN                       PA2
-  #define EXP3_05_PIN                       PC1
-  #define EXP3_06_PIN                       PA5
-  #define EXP3_07_PIN                       PA4
-  #define EXP3_08_PIN                       PA6
+  #define EXP3_03_PIN                       PB10
+  #define EXP3_04_PIN                       PB11
+  #define EXP3_05_PIN                       PB14
+  #define EXP3_06_PIN                       PB13
+  #define EXP3_07_PIN                       PB12
+  #define EXP3_08_PIN                       PB15
 
 #elif ANY(VET6_12864_LCD, DWIN_VET6_CREALITY_LCD)
 
@@ -313,22 +299,3 @@
 #define UART4_RX_PIN                        PC11  // default uses sdcard SDIO_D3
 #define UART5_TX_PIN                        PC12  // default uses sdcard SDIO_CK
 #define UART5_RX_PIN                        PD2   // default uses sdcard SDIO_CMD
-
-
-#define LED_CONTROL_PIN     PA7
-
-//
-// Suicide Power
-//
-#define SHUTIDOWN_PIN       PA0
-#define MOTOR_CIRCUIT_PIN   PA1
-
-//
-// Motor Protect
-//
-#define MOTOR_PROTECT_PIN   PC0
-
-//
-// WiFI Reset
-//
-#define RESET_WIFI_PIN      PB12

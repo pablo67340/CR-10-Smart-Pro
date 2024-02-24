@@ -28,7 +28,7 @@
 #include "../../../feature/powerloss.h"
 #include "../../../module/motion.h"
 
-#include "../../../lcd/ultralcd.h"
+#include "../../../lcd/marlinui.h"
 #if ENABLED(EXTENSIBLE_UI)
   #include "../../../lcd/extui/ui_api.h"
 #elif ENABLED(DWIN_CREALITY_LCD)

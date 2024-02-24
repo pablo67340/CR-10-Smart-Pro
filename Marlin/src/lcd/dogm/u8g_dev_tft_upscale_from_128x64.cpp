@@ -75,7 +75,7 @@ TFT_IO tftio;
 
 #if ENABLED(TOUCH_SCREEN_CALIBRATION)
   #include "../tft_io/touch_calibration.h"
-  #include "../ultralcd.h"
+  #include "../marlinui.h"
 #endif
 
 #if HAS_TOUCH_BUTTONS && HAS_TOUCH_SLEEP

@@ -108,7 +108,7 @@
 
 #include "Sd2Card_FlashDrive.h"
 
-#include "../../lcd/ultralcd.h"
+#include "../../lcd/marlinui.h"
 
 static enum {
   UNINITIALIZED,

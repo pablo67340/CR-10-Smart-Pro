@@ -31,7 +31,7 @@
 #include "../ui_api.h"
 #include "malyan.h"
 
-//#include "../../ultralcd.h"
+//#include "../../marlinui.h"
 //#include "../../../sd/cardreader.h"
 //#include "../../../module/temperature.h"
 //#include "../../../module/stepper.h"

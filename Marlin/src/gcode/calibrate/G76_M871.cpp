@@ -35,7 +35,7 @@
 #include "../../feature/bedlevel/bedlevel.h"
 #include "../../module/temperature.h"
 #include "../../feature/probe_temp_comp.h"
-#include "../../lcd/ultralcd.h"
+#include "../../lcd/marlinui.h"
 
 /**
  * G76: calibrate probe and/or bed temperature offsets

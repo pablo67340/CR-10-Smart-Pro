@@ -46,7 +46,7 @@
 #endif
 
 #include "../../utf8.h"
-#include "../../ultralcd.h"
+#include "../../marlinui.h"
 
 #include "../../../sd/cardreader.h"
 

@@ -25,7 +25,7 @@
 #if HAS_STATUS_MESSAGE
 
 #include "../gcode.h"
-#include "../../lcd/ultralcd.h"
+#include "../../lcd/marlinui.h"
 
 /**
  * M117: Set LCD Status Message

@@ -24,7 +24,7 @@
 // TODO: Make AVR-compatible with separate ROM / RAM string methods
 
 #include "../../utf8.h"
-#include "../../ultralcd.h"
+#include "../../marlinui.h"
 
 #include <stdint.h>
 

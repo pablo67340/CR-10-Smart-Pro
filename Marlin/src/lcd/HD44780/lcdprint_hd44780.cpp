@@ -38,7 +38,7 @@
 
 #if HAS_MARLINUI_HD44780
 
-#include "../ultralcd.h"
+#include "../marlinui.h"
 #include "../../MarlinCore.h"
 
 #include "marlinui_HD44780.h"

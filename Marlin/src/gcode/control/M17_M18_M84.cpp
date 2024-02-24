@@ -22,7 +22,7 @@
 
 #include "../gcode.h"
 #include "../../MarlinCore.h" // for stepper_inactive_time, disable_e_steppers
-#include "../../lcd/ultralcd.h"
+#include "../../lcd/marlinui.h"
 #include "../../module/motion.h" // for e_axis_mask
 #include "../../module/planner.h"
 #include "../../module/stepper.h"

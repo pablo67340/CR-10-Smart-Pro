@@ -1224,23 +1224,9 @@ private:
     static void M1000();
   #endif
 
-  TERN_(MAX7219_GCODE, static void M7219());
-
-  TERN_(CONTROLLER_FAN_EDITABLE, static void M710());
-
-  static void M194();
-
-  static void M72();
-
-  static void M936();
-
   #if ENABLED(X_AXIS_TWIST_COMPENSATION)
     static void M423();
     static void M423_report(const bool forReplay=true);
-  #endif
-
-  #if ENABLED(HAS_CREALITY_WIFI)
-    static void M930();
   #endif
 
   #if HAS_MEDIA
