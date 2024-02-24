@@ -29,7 +29,7 @@
 #include "wifi_upload.h"
 #include "SPI_TFT.h"
 
-#include "../../marlinui.h"
+#include "../../ultralcd.h"
 
 #include "../../../MarlinCore.h"
 #include "../../../module/temperature.h"

@@ -16,7 +16,7 @@
 #include "../core/macros.h"
 
 // read a byte from ROM or RAM
-typedef uint8_t (*read_byte_cb_t)(uint8_t * str);
+typedef uint8_t (*read_byte_cb_t)(const uint8_t * str);
 
 uint8_t read_byte_ram(uint8_t * str);
 uint8_t read_byte_rom(uint8_t * str);

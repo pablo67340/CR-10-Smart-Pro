@@ -27,7 +27,7 @@
 #include "../../gcode.h"
 #include "../../parser.h"
 #include "../../../feature/pause.h"
-#include "../../../lcd/marlinui.h"
+#include "../../../lcd/ultralcd.h"
 #include "../../../module/motion.h"
 #include "../../../module/printcounter.h"
 #include "../../../sd/cardreader.h"

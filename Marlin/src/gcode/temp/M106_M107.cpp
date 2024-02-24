@@ -33,7 +33,7 @@
 #endif
 
 #if HAS_PREHEAT
-  #include "../../lcd/marlinui.h"
+  #include "../../lcd/ultralcd.h"
 #endif
 
 #if ENABLED(SINGLENOZZLE)

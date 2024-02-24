@@ -29,7 +29,7 @@
 
 #include "../sd/cardreader.h"
 #include "temperature.h"
-#include "../lcd/marlinui.h"
+#include "../lcd/ultralcd.h"
 
 #define DEBUG_OUT ALL(USE_SENSORLESS, DEBUG_LEVELING_FEATURE)
 #include "../core/debug_out.h"

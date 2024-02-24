@@ -25,7 +25,7 @@
 #if ENABLED(SET_PROGRESS_MANUALLY)
 
 #include "../gcode.h"
-#include "../../lcd/marlinui.h"
+#include "../../lcd/ultralcd.h"
 #include "../../sd/cardreader.h"
 #include "../../libs/numtostr.h"
 

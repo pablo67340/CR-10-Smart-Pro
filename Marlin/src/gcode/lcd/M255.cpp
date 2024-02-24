@@ -24,7 +24,7 @@
 #if HAS_GCODE_M255
 
 #include "../gcode.h"
-#include "../../lcd/marlinui.h"
+#include "../../lcd/ultralcd.h"
 
 /**
  * M255: Set the LCD sleep timeout (in minutes)

@@ -26,7 +26,7 @@
 
 #include "../gcode.h"
 #include "../../MarlinCore.h"
-#include "../../lcd/marlinui.h"
+#include "../../lcd/ultralcd.h"
 
 /**
  * M414: Set the language for the UI

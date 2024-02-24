@@ -30,12 +30,12 @@
 #include "planner.h"
 #include "temperature.h"
 #include "../gcode/gcode.h"
-#include "../lcd/marlinui.h"
+#include "../lcd/ultralcd.h"
 #include "../inc/MarlinConfig.h"
 
 #if IS_SCARA
   #include "../libs/buzzer.h"
-  #include "../lcd/marlinui.h"
+  #include "../lcd/ultralcd.h"
 #endif
 
 #if HAS_BED_PROBE

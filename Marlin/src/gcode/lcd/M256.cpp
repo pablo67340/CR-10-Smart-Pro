@@ -24,7 +24,7 @@
 #if HAS_LCD_BRIGHTNESS
 
 #include "../gcode.h"
-#include "../../lcd/marlinui.h"
+#include "../../lcd/ultralcd.h"
 
 /**
  * M256: Set the LCD brightness

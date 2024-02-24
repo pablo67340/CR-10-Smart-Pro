@@ -32,7 +32,7 @@
 
 #include "../gcode.h"
 #include "../../module/temperature.h"
-#include "../../lcd/marlinui.h"
+#include "../../lcd/ultralcd.h"
 
 /**
  * M141: Set chamber temperature

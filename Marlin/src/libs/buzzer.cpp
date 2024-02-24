@@ -26,7 +26,7 @@
 
 #include "buzzer.h"
 #include "../module/temperature.h"
-#include "../lcd/marlinui.h"
+#include "../lcd/ultralcd.h"
 
 #if ENABLED(EXTENSIBLE_UI)
   #include "../lcd/extui/ui_api.h"

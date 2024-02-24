@@ -32,7 +32,7 @@
 #if ALL(DWIN_LCD_PROUI, HAS_MESH)
 
 #include "../../../core/types.h"
-#include "../../marlinui.h"
+#include "../../ultralcd.h"
 #include "dwin_lcd.h"
 #include "dwinui.h"
 #include "dwin.h"

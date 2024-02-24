@@ -326,6 +326,15 @@ public:
     static inline void init_lcd() {}
   #endif
 
+  #if HAS_MULTI_LANGUAGE
+    static uint8_t language;
+    static void set_language(const uint8_t lang);
+  #endif
+
+  #if HAS_MARLINUI_U8GLIB
+    static void update_language_font();
+  #endif
+
   #if HAS_DISPLAY
 
     static void init();
@@ -342,6 +351,13 @@ public:
       static uint8_t status_scroll_offset;
       static void advance_status_scroll();
       static char* status_and_len(uint8_t &len);
+    #endif
+
+    #if ENABLED(ADVANCED_PAUSE_FEATURE) && ANY(HAS_MARLINUI_MENU, EXTENSIBLE_UI, DWIN_LCD_PROUI, DWIN_CREALITY_LCD_JYERSUI)
+      static void pause_show_message(const PauseMessage message, const PauseMode mode=PAUSE_MODE_SAME, const uint8_t extruder=active_extruder);
+    #else
+      static void _pause_show_message() {}
+      #define pause_show_message(...) _pause_show_message()
     #endif
 
     static void abort_print();

@@ -26,7 +26,7 @@
 
 #include "ui_common.h"
 
-#include "../marlinui.h"
+#include "../ultralcd.h"
 #include "../menu/menu.h"
 #include "../../libs/numtostr.h"
 

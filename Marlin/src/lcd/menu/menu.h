@@ -21,7 +21,7 @@
  */
 #pragma once
 
-#include "../marlinui.h"
+#include "../ultralcd.h"
 #include "../../libs/numtostr.h"
 #include "../../inc/MarlinConfig.h"
 

@@ -64,7 +64,7 @@
   #include "../lcd/e3v2/proui/dwin.h"
 #endif
 
-#include "../lcd/marlinui.h"
+#include "../lcd/ultralcd.h"
 
 #if HAS_SOUND
   #include "../libs/buzzer.h"

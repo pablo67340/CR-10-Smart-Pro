@@ -22,7 +22,7 @@
 
 #include "../gcode.h"
 #include "../../module/printcounter.h"
-#include "../../lcd/marlinui.h"
+#include "../../lcd/ultralcd.h"
 #if ENABLED(HOST_PAUSE_M76)
   #include "../../feature/host_actions.h"
 #endif

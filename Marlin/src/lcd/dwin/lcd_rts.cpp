@@ -32,7 +32,7 @@
 
 #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
   #include "../../feature/bedlevel/bedlevel.h"
-  #include "../../feature/bedlevel/abl/abl.h"
+  #include "../../feature/bedlevel/abl/bbl.h"
 #endif
 
 #if ENABLED(RTS_AVAILABLE)
@@ -198,7 +198,7 @@ void RTSSHOW::RTS_SDCardInit(void)
   }
   if(CardReader::flag.mounted)
   {
-    fileCnt = card.get_num_Files();
+    fileCnt = card.get_num_items();
     card.getWorkDirName();
     if(card.filename[0] != '/')
     {
@@ -425,16 +425,9 @@ void RTSSHOW::RTS_Init(void)
   RTS_SndData(planner.max_jerk.x * 100, MAX_JERK_XAXIS_DATA_VP);
   RTS_SndData(planner.max_jerk.y * 100, MAX_JERK_YAXIS_DATA_VP);
   RTS_SndData(planner.max_jerk.z * 100, MAX_JERK_ZAXIS_DATA_VP);
-  RTS_SndData(planner.max_jerk.e * 100, MAX_JERK_EAXIS_DATA_VP);
-
-  RTS_SndData(planner.settings.axis_steps_per_mm[0] * 10, MAX_STEPSMM_XAXIS_DATA_VP);
-  RTS_SndData(planner.settings.axis_steps_per_mm[1] * 10, MAX_STEPSMM_YAXIS_DATA_VP);
-  RTS_SndData(planner.settings.axis_steps_per_mm[2] * 10, MAX_STEPSMM_ZAXIS_DATA_VP);
-  RTS_SndData(planner.settings.axis_steps_per_mm[3] * 10, MAX_STEPSMM_EAXIS_DATA_VP);
-
-  RTS_SndData(PID_PARAM(Kp, e) * 100, NOZZLE_TEMP_P_DATA_VP);
-  RTS_SndData(unscalePID_i(PID_PARAM(Ki, e)) * 100, NOZZLE_TEMP_I_DATA_VP);
-  RTS_SndData(unscalePID_d(PID_PARAM(Kd, e)) * 100, NOZZLE_TEMP_D_DATA_VP);
+  RTS_SndData((*thermalManager.temp_hotend).pid.Kp * 100, NOZZLE_TEMP_P_DATA_VP);
+  RTS_SndData((*thermalManager.temp_hotend).pid.Ki * 100, NOZZLE_TEMP_I_DATA_VP);
+  RTS_SndData((*thermalManager.temp_hotend).pid.Kd * 100, NOZZLE_TEMP_D_DATA_VP);
   RTS_SndData(thermalManager.temp_bed.pid.Kp * 100, HOTBED_TEMP_P_DATA_VP);
   RTS_SndData(unscalePID_i(thermalManager.temp_bed.pid.Ki) * 100, HOTBED_TEMP_I_DATA_VP);
   RTS_SndData(unscalePID_d(thermalManager.temp_bed.pid.Kd) * 10, HOTBED_TEMP_D_DATA_VP);
@@ -1190,7 +1183,7 @@ void RTSSHOW::RTS_HandleData(void)
         {
           runout.filament_ran_out = false;
           RTS_SndData(ExchangePageBase + 40, ExchangepageAddr);
-          while(planner.movesplanned() && (queue.length >= (BUFSIZE - 2)) && (destination != current_position))
+          while(planner.movesplanned() && (queue.ring_buffer.length >= (BUFSIZE - 2)) && (destination != current_position))
           {
             idle();
           }

@@ -24,7 +24,7 @@
 #include "../../../inc/MarlinConfigPre.h"
 #include "../../dogm/marlinui_DOGM.h"
 #include "../../lcdprint.h"
-#include "../../marlinui.h"
+#include "../../ultralcd.h"
 
 //#define MUTE_GAMES
 

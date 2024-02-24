@@ -43,7 +43,7 @@
   #include "../../../libs/vector_3.h"
 #endif
 
-#include "../../../lcd/marlinui.h"
+#include "../../../lcd/ultralcd.h"
 #if ENABLED(EXTENSIBLE_UI)
   #include "../../../lcd/extui/ui_api.h"
 #elif ENABLED(DWIN_CREALITY_LCD)

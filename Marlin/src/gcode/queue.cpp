@@ -29,7 +29,7 @@ GCodeQueue queue;
 
 #include "gcode.h"
 
-#include "../lcd/marlinui.h"
+#include "../lcd/ultralcd.h"
 #include "../sd/cardreader.h"
 #include "../module/motion.h"
 #include "../module/planner.h"

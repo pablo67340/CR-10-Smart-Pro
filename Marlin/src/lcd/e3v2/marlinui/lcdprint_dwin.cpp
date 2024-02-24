@@ -34,7 +34,7 @@
 #include "dwin_lcd.h"
 #include "dwin_string.h"
 
-#include "../../marlinui.h"
+#include "../../ultralcd.h"
 #include "../../../MarlinCore.h"
 
 #include <string.h>

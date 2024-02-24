@@ -31,7 +31,7 @@
 
 #include "../../utf8.h"
 #include "../../../libs/numtostr.h"
-#include "../../marlinui.h"
+#include "../../ultralcd.h"
 
 #include "../../../sd/cardreader.h"
 #include "../../../module/motion.h"

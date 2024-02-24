@@ -33,7 +33,7 @@
 #include "../../../../module/planner.h"
 
 #include "../../ui_api.h"
-#include "../../../marlinui.h"
+#include "../../../ultralcd.h"
 
 #if HAS_STEALTHCHOP
   #include "../../../../module/stepper/trinamic.h"

@@ -20,7 +20,7 @@
  *
  */
 #include "../inc/MarlinConfig.h"
-#include "../lcd/marlinui.h"
+#include "../lcd/ultralcd.h"
 
 #if HAS_DRIVER_SAFE_POWER_PROTECT
 

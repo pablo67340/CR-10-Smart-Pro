@@ -25,7 +25,7 @@
 #if ALL(HAS_MARLINUI_MENU, TOUCH_SCREEN_CALIBRATION)
 
 #include "menu_item.h"
-#include "../marlinui.h"
+#include "../ultralcd.h"
 
 void touch_screen_calibration() {
 

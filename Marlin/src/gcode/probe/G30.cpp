@@ -28,7 +28,7 @@
 #include "../../module/motion.h"
 #include "../../module/probe.h"
 #include "../../feature/bedlevel/bedlevel.h"
-#include "../../lcd/marlinui.h"
+#include "../../lcd/ultralcd.h"
 
 #if HAS_PTC
   #include "../../feature/probe_temp_comp.h"

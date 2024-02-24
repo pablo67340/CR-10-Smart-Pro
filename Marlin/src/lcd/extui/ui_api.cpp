@@ -45,7 +45,7 @@
 
 #if ENABLED(EXTENSIBLE_UI)
 
-#include "../marlinui.h"
+#include "../ultralcd.h"
 #include "../../gcode/queue.h"
 #include "../../gcode/gcode.h"
 #include "../../module/motion.h"

@@ -159,6 +159,18 @@ constexpr uint8_t epps = ENCODER_PULSES_PER_STEP;
   bool MarlinUI::defer_return_to_status;
 #endif
 
+#if HAS_MULTI_LANGUAGE
+  uint8_t MarlinUI::language; // Initialized by settings.load()
+  void MarlinUI::set_language(const uint8_t lang) {
+    if (lang < NUM_LANGUAGES) {
+      language = lang;
+      TERN_(HAS_MARLINUI_U8GLIB, update_language_font());
+      return_to_status();
+      refresh();
+    }
+  }
+#endif
+
 uint8_t MarlinUI::lcd_status_update_delay = 1; // First update one loop delayed
 
 #if BOTH(FILAMENT_LCD_DISPLAY, SDSUPPORT)
@@ -1721,5 +1733,34 @@ void MarlinUI::update() {
     }
 
   #endif // EEPROM_AUTO_INIT
+
+  #if ALL(EXTENSIBLE_UI, ADVANCED_PAUSE_FEATURE)
+
+  void MarlinUI::pause_show_message(
+    const PauseMessage message,
+    const PauseMode mode/*=PAUSE_MODE_SAME*/,
+    const uint8_t extruder/*=active_extruder*/
+  ) {
+    pause_mode = mode;
+    ExtUI::pauseModeStatus = message;
+    switch (message) {
+      case PAUSE_MESSAGE_PARKING:  ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_PAUSE_PRINT_PARKING)); break;
+      case PAUSE_MESSAGE_CHANGING: ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_FILAMENT_CHANGE_INIT)); break;
+      case PAUSE_MESSAGE_UNLOAD:   ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_FILAMENT_CHANGE_UNLOAD)); break;
+      case PAUSE_MESSAGE_WAITING:  ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_ADVANCED_PAUSE_WAITING)); break;
+      case PAUSE_MESSAGE_INSERT:   ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_FILAMENT_CHANGE_INSERT)); break;
+      case PAUSE_MESSAGE_LOAD:     ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_FILAMENT_CHANGE_LOAD)); break;
+      case PAUSE_MESSAGE_PURGE:
+        ExtUI::onUserConfirmRequired(GET_TEXT_F(TERN(ADVANCED_PAUSE_CONTINUOUS_PURGE, MSG_FILAMENT_CHANGE_CONT_PURGE, MSG_FILAMENT_CHANGE_PURGE)));
+        break;
+      case PAUSE_MESSAGE_RESUME:   ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_FILAMENT_CHANGE_RESUME)); break;
+      case PAUSE_MESSAGE_HEAT:     ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_FILAMENT_CHANGE_HEAT)); break;
+      case PAUSE_MESSAGE_HEATING:  ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_FILAMENT_CHANGE_HEATING)); break;
+      case PAUSE_MESSAGE_OPTION:   ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_FILAMENT_CHANGE_OPTION_HEADER)); break;
+      case PAUSE_MESSAGE_STATUS:   break;
+      default: break;
+    }
+  }
+
 
 #endif // EEPROM_SETTINGS

@@ -28,7 +28,7 @@
 
 #if HAS_LCDPRINT
 
-#include "marlinui.h"
+#include "ultralcd.h"
 #include "lcdprint.h"
 
 /**

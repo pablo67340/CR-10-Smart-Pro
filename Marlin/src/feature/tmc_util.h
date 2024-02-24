@@ -22,7 +22,7 @@
 #pragma once
 
 #include "../inc/MarlinConfig.h"
-#include "../lcd/marlinui.h"
+#include "../lcd/ultralcd.h"
 
 #if HAS_TRINAMIC_CONFIG
 

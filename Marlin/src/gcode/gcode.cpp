@@ -276,7 +276,7 @@ void GcodeSuite::dwell(millis_t time) {
   }
 
   #if ENABLED(G29_HALT_ON_FAILURE)
-    #include "../lcd/marlinui.h"
+    #include "../lcd/ultralcd.h"
   #endif
 
   void GcodeSuite::event_probe_failure() {

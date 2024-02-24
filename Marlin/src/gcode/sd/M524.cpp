@@ -28,7 +28,7 @@
 #include "../../sd/cardreader.h"
 
 #if ENABLED(DWIN_LCD_PROUI)
-  #include "../../lcd/marlinui.h"
+  #include "../../lcd/ultralcd.h"
 #endif
 
 /**

@@ -44,7 +44,7 @@
 
 #include "../../inc/MarlinConfig.h"
 
-#include "../marlinui.h"
+#include "../ultralcd.h"
 #include "../../gcode/gcode.h"
 
 #if M600_PURGE_MORE_RESUMABLE

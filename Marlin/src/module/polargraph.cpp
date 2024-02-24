@@ -34,7 +34,7 @@
 // For homing:
 #include "planner.h"
 #include "endstops.h"
-#include "../lcd/marlinui.h"
+#include "../lcd/ultralcd.h"
 #include "../MarlinCore.h"
 
 // Initialized by settings.load()

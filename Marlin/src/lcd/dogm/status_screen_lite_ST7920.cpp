@@ -72,7 +72,7 @@
 
 #if ENABLED(LIGHTWEIGHT_UI)
 
-#include "../marlinui.h"
+#include "../ultralcd.h"
 #include "../utf8.h"
 #include "../lcdprint.h"
 #include "../../libs/duration_t.h"

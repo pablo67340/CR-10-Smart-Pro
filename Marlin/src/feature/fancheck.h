@@ -26,7 +26,7 @@
 #if HAS_FANCHECK
 
 #include "../MarlinCore.h"
-#include "../lcd/marlinui.h"
+#include "../lcd/ultralcd.h"
 
 #if ENABLED(AUTO_REPORT_FANS)
   #include "../libs/autoreport.h"

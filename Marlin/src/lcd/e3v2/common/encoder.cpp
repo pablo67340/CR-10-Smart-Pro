@@ -33,7 +33,7 @@
 #include "../../buttons.h"
 
 #include "../../../MarlinCore.h"
-#include "../../marlinui.h"
+#include "../../ultralcd.h"
 #include "../../../HAL/shared/Delay.h"
 
 #if HAS_SOUND
