@@ -188,6 +188,7 @@
 #define STR_ERR_M420_FAILED                 "Failed to enable Bed Leveling"
 #define STR_ERR_M428_TOO_FAR                "Too far from reference point"
 #define STR_ERR_M303_DISABLED               "PIDTEMP disabled"
+#define STR_ERR_EEPROM_CORRUPT              "EEPROM Corrupt"
 #define STR_M119_REPORT                     "Reporting endstop status"
 #define STR_ON                              "ON"
 #define STR_OFF                             "OFF"
@@ -232,10 +233,13 @@
 #define STR_FILAMENT_CHANGE_INSERT_M108     "Insert filament and send M108"
 #define STR_FILAMENT_CHANGE_WAIT_M108       "Send M108 to resume"
 
-#define STR_STOP_BLTOUCH                    "!! STOP called because of BLTouch error - restart with M999"
-#define STR_STOP_UNHOMED                    "!! STOP called because of unhomed error - restart with M999"
-#define STR_KILL_INACTIVE_TIME              "!! KILL caused by too much inactive time - current command: "
-#define STR_KILL_BUTTON                     "!! KILL caused by KILL button/pin"
+#define STR_STOP_PRE                        "!! STOP called because of "
+#define STR_STOP_POST                       " error - restart with M999"
+#define STR_STOP_BLTOUCH                    "BLTouch"
+#define STR_STOP_UNHOMED                    "unhomed"
+#define STR_KILL_PRE                        "!! KILL caused by "
+#define STR_KILL_INACTIVE_TIME              "too much inactive time - current command: "
+#define STR_KILL_BUTTON                     "KILL button/pin"
 
 // temperature.cpp strings
 #define STR_PID_AUTOTUNE                    "PID Autotune"
@@ -271,6 +275,7 @@
 #define STR_REDUNDANCY                      "Heater switched off. Temperature difference between temp sensors is too high !"
 #define STR_T_HEATING_FAILED                "Heating failed"
 #define STR_T_THERMAL_RUNAWAY               "Thermal Runaway"
+#define STR_T_MALFUNCTION                   "Thermal Malfunction"
 #define STR_T_MAXTEMP                       "MAXTEMP triggered"
 #define STR_T_MINTEMP                       "MINTEMP triggered"
 #define STR_ERR_PROBING_FAILED              "Probing Failed"
@@ -350,6 +355,9 @@
 #define LCD_STR_B STR_B
 #define LCD_STR_C STR_C
 #define LCD_STR_E STR_E
+#define STR_Z_PROBE                         "z_probe"
+#define STR_PROBE_EN                        "probe_en"
+#define STR_FILAMENT                        "filament"
 
 #if HAS_CHARACTER_LCD
 
@@ -450,3 +458,12 @@
          DISPLAY_CHARSET_ISO10646_SK)
   #define DISPLAY_CHARSET_ISO10646_1 // use the better font on full graphic displays.
 #endif
+
+#define STR_E0 STR_E STR_N0
+#define STR_E1 STR_E STR_N1
+#define STR_E2 STR_E STR_N2
+#define STR_E3 STR_E STR_N3
+#define STR_E4 STR_E STR_N4
+#define STR_E5 STR_E STR_N5
+#define STR_E6 STR_E STR_N6
+#define STR_E7 STR_E STR_N7

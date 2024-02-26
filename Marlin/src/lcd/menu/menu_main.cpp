@@ -413,7 +413,7 @@ void menu_main() {
             #endif
           });
         #endif
-        SUBMENU(MSG_MEDIA_MENU, MEDIA_MENU_GATEWAY);      // Media Menu (or Password First)
+        SUBMENU(MSG_MEDIA_MENU, menu_media);      // Media Menu (or Password First)
       }
     }
     else {

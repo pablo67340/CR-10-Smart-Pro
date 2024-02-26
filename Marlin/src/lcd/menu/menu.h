@@ -271,3 +271,12 @@ inline void clear_menu_history() { screen_history_depth = 0; }
 #if ANY(PROBE_MANUALLY, MESH_BED_LEVELING, X_AXIS_TWIST_COMPENSATION)
   extern uint8_t manual_probe_index;
 #endif
+
+#if ENABLED(ENCODER_RATE_MULTIPLIER)
+  #define ENCODER_RATE_MULTIPLY(F) (ui.encoderRateMultiplierEnabled = F)
+  #define _MENU_ITEM_MULTIPLIER_CHECK(USE_MULTIPLIER) do{ if (USE_MULTIPLIER) ui.enable_encoder_multiplier(true); }while(0)
+  //#define ENCODER_RATE_MULTIPLIER_DEBUG  // If defined, output the encoder steps per second value
+#else
+  #define ENCODER_RATE_MULTIPLY(F) NOOP
+  #define _MENU_ITEM_MULTIPLIER_CHECK(USE_MULTIPLIER)
+#endif
