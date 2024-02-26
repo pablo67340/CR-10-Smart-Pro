@@ -163,21 +163,6 @@ const uint8_t* get_utf8_value_cb(const uint8_t *pstart, read_byte_cb_t cb_read_b
   return p;
 }
 
-static inline uint8_t utf8_strlen_cb(const char *pstart, read_byte_cb_t cb_read_byte) {
-  uint8_t cnt = 0;
-  uint8_t *p = (uint8_t *)pstart;
-  if (p) for (;;) {
-    const uint8_t b = cb_read_byte(p);
-    if (!b) break;
-    if (utf8_is_start_byte_of_char(b)) cnt++;
-    p++;
-  }
-  return cnt;
-}
-
-uint8_t utf8_strlen(const char *pstart) { return utf8_strlen_cb(pstart, read_byte_ram); }
-uint8_t utf8_strlen_P(PGM_P pstart) { return utf8_strlen_cb(pstart, read_byte_rom); }
-
 static inline uint8_t utf8_byte_pos_by_char_num_cb(const char *pstart, read_byte_cb_t cb_read_byte, const uint8_t charnum) {
   uint8_t *p = (uint8_t *)pstart;
   uint8_t char_idx = 0;

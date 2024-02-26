@@ -358,6 +358,7 @@ void MarlinUI::clear_lcd() { } // Automatically cleared by Picture Loop
 #if HAS_MARLINUI_MENU
 
   #include "../menu/menu.h"
+#include "../fontutils.h"
 
   u8g_uint_t row_y1, row_y2;
 

@@ -69,11 +69,6 @@ inline const char* get_utf8_value_cb(const char *pstart, read_byte_cb_t cb_read_
   return (const char *)get_utf8_value_cb((const uint8_t *)pstart, cb_read_byte, pval);
 }
 
-/* Returns length of string in CHARACTERS, NOT BYTES */
-uint8_t utf8_strlen(const char *pstart);
-uint8_t utf8_strlen_P(PGM_P pstart);
-inline uint8_t utf8_strlen(FSTR_P fstart) { return utf8_strlen_P(FTOP(fstart)); }
-
 /* Returns start byte position of desired char number */
 uint8_t utf8_byte_pos_by_char_num(const char *pstart, const uint8_t charnum);
 uint8_t utf8_byte_pos_by_char_num_P(PGM_P pstart, const uint8_t charnum);

@@ -715,10 +715,18 @@ void MarlinUI::quick_feedback(const bool clear_buttons/*=true*/) {
 
   millis_t ManualMove::start_time = 0;
   float ManualMove::menu_scale = 1;
+  screenFunc_t ManualMove::screen_ptr;
   TERN_(IS_KINEMATIC, float ManualMove::offset = 0);
   TERN_(IS_KINEMATIC, bool ManualMove::processing = false);
   TERN_(MULTI_MANUAL, int8_t ManualMove::e_index = 0);
   AxisEnum ManualMove::axis = NO_AXIS_ENUM;
+
+  #if HAS_STATUS_MESSAGE
+  #if ENABLED(STATUS_MESSAGE_SCROLLING) && ANY(HAS_WIRED_LCD, DWIN_LCD_PROUI)
+    uint8_t MarlinUI::status_scroll_offset; // = 0
+  #endif
+  statusResetFunc_t MarlinUI::status_reset_callback; // = nullptr
+#endif
 
   /**
    * If a manual move has been posted and its time has arrived, and if the planner
