@@ -1596,6 +1596,9 @@
   //#define MESH_MAX_Y Y_BED_SIZE - (MESH_INSET)
 #endif
 
+#define SOUND_MENU_ITEM   // Add a mute option to the LCD menu
+#define SOUND_ON_DEFAULT    // Buzzer/speaker default enabled state
+
 /**
  * Repeatedly attempt G29 leveling until it succeeds.
  * Stop after G29_MAX_RETRIES attempts.

@@ -376,6 +376,12 @@ public:
     static void update_language_font();
   #endif
 
+  #if ENABLED(SOUND_MENU_ITEM)
+    static bool sound_on; // Initialized by settings.load()
+  #else
+    static constexpr bool sound_on = true;
+  #endif
+
   #if HAS_DISPLAY
 
     static void init();

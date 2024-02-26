@@ -39,9 +39,9 @@ typedef void (*selectFunc_t)();
 #define SS_DEFAULT SS_CENTER
 
 #if ENABLED(BABYSTEP_ZPROBE_OFFSET) && Z_PROBE_OFFSET_RANGE_MIN >= -9 && Z_PROBE_OFFSET_RANGE_MAX <= 9
-  #define BABYSTEP_TO_STR(N) ftostr43sign(N)
+    #define BABYSTEP_TO_STR(N) ftostr43sign(N)
 #elif ENABLED(BABYSTEPPING)
-  #define BABYSTEP_TO_STR(N) ftostr53sign(N)
+    #define BABYSTEP_TO_STR(N) ftostr53sign(N)
 #endif
 
 ////////////////////////////////////////////
@@ -116,11 +116,11 @@ class MenuItem_confirm : public MenuItemBase {
       FSTR_P const fpre, FSTR_P const fstr, FSTR_P const fsuf=nullptr
     ) {
       #ifdef __AVR__
-        char str[strlen_P(FTOP(fstr)) + 1];
-        strcpy_P(str, FTOP(fstr));
-        select_screen(yes, no, yesFunc, noFunc, fpre, str, fsuf);
+          char str[strlen_P(FTOP(fstr)) + 1];
+          strcpy_P(str, FTOP(fstr));
+          select_screen(yes, no, yesFunc, noFunc, fpre, str, fsuf);
       #else
-        select_screen(yes, no, yesFunc, noFunc, fpre, FTOP(fstr), fsuf);
+          select_screen(yes, no, yesFunc, noFunc, fpre, FTOP(fstr), fsuf);
       #endif
     }
     // Shortcut for prompt with "NO"/ "YES" labels
@@ -192,12 +192,12 @@ class MenuEditItemBase : public MenuItemBase {
 };
 
 #if HAS_MEDIA
-  class CardReader;
-  class MenuItem_sdbase {
-    public:
-      // Implemented for HD44780 and DOGM
-      static void draw(const bool sel, const uint8_t row, FSTR_P const fstr, CardReader &theCard, const bool isDir);
-  };
+    class CardReader;
+    class MenuItem_sdbase {
+      public:
+        // Implemented for HD44780 and DOGM
+        static void draw(const bool sel, const uint8_t row, FSTR_P const fstr, CardReader &theCard, const bool isDir);
+    };
 #endif
 
 ////////////////////////////////////////////
@@ -208,7 +208,7 @@ void menu_main();
 void menu_move();
 
 #if HAS_MEDIA
-  void menu_media();
+    void menu_media();
 #endif
 
 ////////////////////////////////////////////
@@ -220,43 +220,43 @@ void _lcd_draw_homing();
 #define HAS_LINE_TO_Z ANY(DELTA, PROBE_MANUALLY, MESH_BED_LEVELING, LCD_BED_TRAMMING)
 
 #if HAS_LINE_TO_Z
-  void line_to_z(const_float_t z);
+    void line_to_z(const_float_t z);
 #endif
 
 #if ENABLED(PROBE_OFFSET_WIZARD)
-  void goto_probe_offset_wizard();
+    void goto_probe_offset_wizard();
 #endif
 
 #if ENABLED(X_AXIS_TWIST_COMPENSATION)
-  void xatc_wizard_continue();
-  void menu_advanced_settings();
+    void xatc_wizard_continue();
+    void menu_advanced_settings();
 #endif
 
 #if ENABLED(LCD_BED_LEVELING) || (HAS_LEVELING && DISABLED(SLIM_LCD_MENUS))
-  void _lcd_toggle_bed_leveling();
+    void _lcd_toggle_bed_leveling();
 #endif
 
 #if ENABLED(BABYSTEPPING)
-  #if ENABLED(BABYSTEP_ZPROBE_OFFSET)
-    void lcd_babystep_zoffset();
-  #else
-    void lcd_babystep_z();
-  #endif
-
-  #if ENABLED(BABYSTEP_MILLIMETER_UNITS)
-    #define BABYSTEP_SIZE_X int32_t((BABYSTEP_MULTIPLICATOR_XY) * planner.settings.axis_steps_per_mm[X_AXIS])
-    #define BABYSTEP_SIZE_Y int32_t((BABYSTEP_MULTIPLICATOR_XY) * planner.settings.axis_steps_per_mm[Y_AXIS])
-    #define BABYSTEP_SIZE_Z int32_t((BABYSTEP_MULTIPLICATOR_Z)  * planner.settings.axis_steps_per_mm[Z_AXIS])
-  #else
-    #define BABYSTEP_SIZE_X BABYSTEP_MULTIPLICATOR_XY
-    #define BABYSTEP_SIZE_Y BABYSTEP_MULTIPLICATOR_XY
-    #define BABYSTEP_SIZE_Z BABYSTEP_MULTIPLICATOR_Z
-  #endif
-
+    #if ENABLED(BABYSTEP_ZPROBE_OFFSET)
+        void lcd_babystep_zoffset();
+    #else
+        void lcd_babystep_z();
+    #endif
+  
+    #if ENABLED(BABYSTEP_MILLIMETER_UNITS)
+        #define BABYSTEP_SIZE_X int32_t((BABYSTEP_MULTIPLICATOR_XY) * planner.settings.axis_steps_per_mm[X_AXIS])
+        #define BABYSTEP_SIZE_Y int32_t((BABYSTEP_MULTIPLICATOR_XY) * planner.settings.axis_steps_per_mm[Y_AXIS])
+        #define BABYSTEP_SIZE_Z int32_t((BABYSTEP_MULTIPLICATOR_Z)  * planner.settings.axis_steps_per_mm[Z_AXIS])
+    #else
+        #define BABYSTEP_SIZE_X BABYSTEP_MULTIPLICATOR_XY
+        #define BABYSTEP_SIZE_Y BABYSTEP_MULTIPLICATOR_XY
+        #define BABYSTEP_SIZE_Z BABYSTEP_MULTIPLICATOR_Z
+    #endif
+  
 #endif
 
 #if ENABLED(TOUCH_SCREEN_CALIBRATION)
-  void touch_screen_calibration();
+    void touch_screen_calibration();
 #endif
 
 extern uint8_t screen_history_depth;
@@ -265,11 +265,11 @@ inline void clear_menu_history() { screen_history_depth = 0; }
 #define STICKY_SCREEN(S) []{ ui.defer_status_screen(); ui.goto_screen(S); }
 
 #if HAS_LEVELING && ANY(LCD_BED_TRAMMING, PROBE_OFFSET_WIZARD, X_AXIS_TWIST_COMPENSATION)
-  extern bool menu_leveling_was_active;
+    extern bool menu_leveling_was_active;
 #endif
 
 #if ANY(PROBE_MANUALLY, MESH_BED_LEVELING, X_AXIS_TWIST_COMPENSATION)
-  extern uint8_t manual_probe_index;
+    extern uint8_t manual_probe_index;
 #endif
 
 /**
@@ -287,29 +287,8 @@ inline void clear_menu_history() { screen_history_depth = 0; }
   for (int8_t _lcdLineNr = 0; _lcdLineNr < LCD_HEIGHT; _lcdLineNr++, _menuLineNr++) { \
     _thisItemNr = 0
 
-/**
- * START_SCREEN  Opening code for a screen having only static items.
- *               Do simplified scrolling of the entire screen.
- *
- * START_MENU    Opening code for a screen with menu items.
- *               Scroll as-needed to keep the selected line in view.
- */
-#define START_SCREEN() SCREEN_OR_MENU_LOOP(false)
-#define START_MENU() SCREEN_OR_MENU_LOOP(true)
-#define NEXT_ITEM() (++_thisItemNr)
-#define SKIP_ITEM() NEXT_ITEM()
-#define END_SCREEN() } screen_items = _thisItemNr
-#define END_MENU() END_SCREEN(); UNUSED(_skipStatic)
 
-#if ENABLED(ENCODER_RATE_MULTIPLIER)
-  #define ENCODER_RATE_MULTIPLY(F) (ui.encoderRateMultiplierEnabled = F)
-  #define _MENU_ITEM_MULTIPLIER_CHECK(USE_MULTIPLIER) do{ if (USE_MULTIPLIER) ui.enable_encoder_multiplier(true); }while(0)
-  //#define ENCODER_RATE_MULTIPLIER_DEBUG  // If defined, output the encoder steps per second value
-#else
-  #define ENCODER_RATE_MULTIPLY(F) NOOP
-  #define _MENU_ITEM_MULTIPLIER_CHECK(USE_MULTIPLIER)
-#endif
-
+    
 // STATIC_ITEM draws a styled string with no highlight.
 // Parameters: label [, style [, char *value] ]
 
@@ -327,3 +306,30 @@ inline void clear_menu_history() { screen_history_depth = 0; }
     STATIC_ITEM_INNER_P(PLABEL, ##V);   \
   NEXT_ITEM();                          \
 } while(0)
+
+/**
+ * START_SCREEN  Opening code for a screen having only static items.
+ *               Do simplified scrolling of the entire screen.
+ *
+ * START_MENU    Opening code for a screen with menu items.
+ *               Scroll as-needed to keep the selected line in view.
+ */
+#define START_SCREEN() SCREEN_OR_MENU_LOOP(false)
+#define START_MENU() SCREEN_OR_MENU_LOOP(true)
+#define NEXT_ITEM() (++_thisItemNr)
+#define SKIP_ITEM() NEXT_ITEM()
+#define END_SCREEN() } screen_items = _thisItemNr
+#define END_MENU() END_SCREEN(); UNUSED(_skipStatic)
+
+#if ENABLED(ENCODER_RATE_MULTIPLIER)
+    #define ENCODER_RATE_MULTIPLY(F) (ui.encoderRateMultiplierEnabled = F)
+    #define _MENU_ITEM_MULTIPLIER_CHECK(USE_MULTIPLIER) do{ if (USE_MULTIPLIER) ui.enable_encoder_multiplier(true); }while(0)
+    //#define ENCODER_RATE_MULTIPLIER_DEBUG  // If defined, output the encoder steps per second value
+#else
+    #define ENCODER_RATE_MULTIPLY(F) NOOP
+    #define _MENU_ITEM_MULTIPLIER_CHECK(USE_MULTIPLIER)
+#endif
+
+#if ENABLED(SOUND_MENU_ITEM)
+  bool MarlinUI::sound_on = ENABLED(SOUND_ON_DEFAULT);
+#endif
