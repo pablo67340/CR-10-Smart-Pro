@@ -2502,24 +2502,23 @@ void RTSSHOW::RTS_HandleData(void)
 
     case NozzlePTempEnterKey:
       float nozzle_ptemp;
-      float e; // Declare the variable 'e'
       nozzle_ptemp = (float)recdat.data[0] / 100;
       RTS_SndData(nozzle_ptemp * 100, NOZZLE_TEMP_P_DATA_VP);
-      e = nozzle_ptemp; // Assign the value to 'e'
+      thermalManager.temp_hotend[0].pid.Kp = nozzle_ptemp; // Assign the value to 'e'
       break;
 
     case NozzleITempEnterKey:
       float nozzle_itemp;
       nozzle_itemp = (float)recdat.data[0] / 100;
       RTS_SndData(nozzle_itemp * 100, NOZZLE_TEMP_I_DATA_VP);
-      thermalManager.temp_bed.pid.Ki = scalePID_i(nozzle_itemp);
+      thermalManager.temp_hotend[0].pid.Ki = scalePID_i(nozzle_itemp);
       break;
 
     case NozzleDTempEnterKey:
       float nozzle_dtemp;
       nozzle_dtemp = (float)recdat.data[0] / 100;
       RTS_SndData(nozzle_dtemp * 100, NOZZLE_TEMP_D_DATA_VP);
-      thermalManager.temp_bed.pid.Kd = scalePID_d(nozzle_dtemp);
+      thermalManager.temp_hotend[0].pid.Kd = scalePID_d(nozzle_dtemp);
       break;
 
     case HotbedPTempEnterKey:

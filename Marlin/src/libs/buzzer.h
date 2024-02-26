@@ -23,7 +23,7 @@
 
 #include "../inc/MarlinConfig.h"
 
-#if HAS_BEEPER
+#if HAS_BUZZER
 
   #include "circularqueue.h"
 
