@@ -97,7 +97,7 @@
   #include "feature/host_actions.h"
 #endif
 
-#if HAS_BEEPER
+#if HAS_BUZZER
   #include "libs/buzzer.h"
 #endif
 
@@ -841,7 +841,7 @@ void idle(const bool no_stepper_sleep/*=false*/) {
   TERN_(PRINTCOUNTER, print_job_timer.tick());
 
   // Update the Beeper queue
-  TERN_(HAS_BEEPER, buzzer.tick());
+  TERN_(HAS_BUZZER, buzzer.tick());
 
   // Handle UI input / draw events
   TERN(DWIN_CREALITY_LCD, DWIN_Update(), ui.update());
@@ -1298,7 +1298,7 @@ void setup() {
   calibrate_delay_loop();
 
   // Init buzzer pin(s)
-  #if HAS_BEEPER
+  #if HAS_BUZZER
     SETUP_RUN(buzzer.init());
   #endif
 

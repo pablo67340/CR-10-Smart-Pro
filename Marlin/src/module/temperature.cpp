@@ -190,7 +190,7 @@
   #include "tool_change.h"
 #endif
 
-#if HAS_BEEPER
+#if HAS_BUZZER
   #include "../libs/buzzer.h"
 #endif
 

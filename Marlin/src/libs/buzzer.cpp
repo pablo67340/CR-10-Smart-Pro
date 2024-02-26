@@ -22,7 +22,7 @@
 
 #include "../inc/MarlinConfig.h"
 
-#if HAS_BEEPER
+#if HAS_BUZZER
 
 #include "buzzer.h"
 #include "../module/temperature.h"
@@ -81,4 +81,4 @@ void Buzzer::tick() {
   else if (ELAPSED(now, state.endtime)) reset();
 }
 
-#endif // HAS_BEEPER
+#endif // HAS_BUZER

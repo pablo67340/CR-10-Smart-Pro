@@ -50,7 +50,7 @@ ENCODER_Rate EncoderRate;
 
 // TODO: Replace with ui.quick_feedback
 void Encoder_tick() {
-  TERN_(HAS_BEEPER, if (ui.sound_on) buzzer.click(10));
+  TERN_(HAS_BUZZER, if (ui.sound_on) buzzer.click(10));
 }
 
 // Encoder initialization
@@ -64,7 +64,7 @@ void Encoder_Configuration() {
   #if BUTTON_EXISTS(ENC)
     SET_INPUT_PULLUP(BTN_ENC);
   #endif
-  #if HAS_BEEPER
+  #if HAS_BUZZER
     SET_OUTPUT(BEEPER_PIN);     // TODO: Use buzzer.h which already inits this
   #endif
 }
