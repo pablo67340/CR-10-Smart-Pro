@@ -320,7 +320,7 @@ millis_t MarlinUI::next_button_update_ms; // = 0
 
   void MarlinUI::draw_select_screen_prompt(FSTR_P const pref, const char * const string/*=nullptr*/, FSTR_P const suff/*=nullptr*/)
   {
-    const uint8_t plen = utf8_strlen_P(reinterpret_cast<const char*>(pref)), slen = suff ? utf8_strlen_P(reinterpret_cast<const char*>(suff)) : 0;
+    const uint8_t plen = utf8_strlen_P(pref), slen = suff ? utf8_strlen_P(suff) : 0;
     uint8_t col = 0, row = 0;
     if (!string && plen + slen <= LCD_WIDTH)
     {
@@ -341,7 +341,7 @@ millis_t MarlinUI::next_button_update_ms; // = 0
 
   void MarlinUI::draw_select_chinese_screen_prompt(FSTR_P const pref, const char * const string/*=nullptr*/, FSTR_P const suff/*=nullptr*/)
   {
-    const uint8_t plen = utf8_strlen_P(reinterpret_cast<const char*>(pref)), slen = suff ? utf8_strlen_P(reinterpret_cast<const char*>(suff)) : 0;
+    const uint8_t plen = utf8_strlen_P(pref), slen = suff ? utf8_strlen_P(suff) : 0;
     uint8_t col = 0, row = 0;
     if (!string && plen + slen <= LCD_WIDTH)
     {
@@ -1725,7 +1725,7 @@ void MarlinUI::update() {
         editable.uint8 = msgid;
         goto_screen([]{
           FSTR_P const restore_msg = GET_TEXT_F(MSG_INIT_EEPROM);
-          char msg[utf8_strlen_P(reinterpret_cast<const char*>(restore_msg)) + 1];
+          char msg[utf8_strlen_P(restore_msg) + 1];
           strcpy_P(msg, reinterpret_cast<const char*>(restore_msg));
           MenuItem_confirm::select_screen(
             GET_TEXT_F(MSG_BUTTON_RESET), GET_TEXT_F(MSG_BUTTON_IGNORE),

@@ -441,7 +441,7 @@ void MarlinUI::clear_lcd() { } // Automatically cleared by Picture Loop
   // Draw a menu item with an editable value
   void MenuEditItemBase::draw(const bool sel, const uint8_t row, FSTR_P const ftpl, const char * const inStr, const bool pgm) {
     if (mark_as_selected(row, sel)) {
-      const uint8_t vallen = (pgm ? utf8_strlen_P(inStr) : utf8_strlen(inStr)),
+      const uint8_t vallen = (pgm ? utf8_strlen_P(FSTR_P(inStr)) : utf8_strlen(inStr)),
                     pixelwidth = (pgm ? uxg_GetUtf8StrPixelWidthP(u8g.getU8g(), inStr) : uxg_GetUtf8StrPixelWidth(u8g.getU8g(), inStr));
       const u8g_uint_t prop = USE_WIDE_GLYPH ? 2 : 1;
 
@@ -459,7 +459,7 @@ void MarlinUI::clear_lcd() { } // Automatically cleared by Picture Loop
     ui.encoder_direction_normal();
 
     const u8g_uint_t prop = USE_WIDE_GLYPH ? 2 : 1;
-    const u8g_uint_t labellen = utf8_strlen(ftpl), vallen = utf8_strlen(value);
+    const u8g_uint_t labellen = utf8_strlen(reinterpret_cast<const char*>(ftpl)), vallen = utf8_strlen(value);
     bool extra_row = labellen * prop > LCD_WIDTH - 2 - vallen * prop;
 
     #if ENABLED(USE_BIG_EDIT_FONT)
@@ -507,7 +507,7 @@ void MarlinUI::clear_lcd() { } // Automatically cleared by Picture Loop
   }
 
   inline void draw_boxed_string(const u8g_uint_t x, const u8g_uint_t y, FSTR_P const fstr, const bool inv) {
-    const u8g_uint_t len = utf8_strlen(fstr),
+    const u8g_uint_t len = utf8_strlen(reinterpret_cast<const char*>(fstr)),
                       by = (y + 1) * (MENU_FONT_HEIGHT);
     const u8g_uint_t prop = USE_WIDE_GLYPH ? 2 : 1;
     const pixel_len_t bw = len * prop * (MENU_FONT_WIDTH), bx = x * prop * (MENU_FONT_WIDTH);
@@ -523,7 +523,7 @@ void MarlinUI::clear_lcd() { } // Automatically cleared by Picture Loop
   void MenuItem_confirm::draw_select_screen(FSTR_P const yes, FSTR_P const no, const bool yesno, FSTR_P const fpre, const char * const string/*=nullptr*/, FSTR_P const suff/*=nullptr*/) {
     ui.draw_select_screen_prompt(fpre, string, suff);
     if (no)  draw_boxed_string(1, LCD_HEIGHT - 1, no, !yesno);
-    if (yes) draw_boxed_string(LCD_WIDTH - (utf8_strlen(yes) * (USE_WIDE_GLYPH ? 2 : 1) + 1), LCD_HEIGHT - 1, yes, yesno);
+    if (yes) draw_boxed_string(LCD_WIDTH - (utf8_strlen(reinterpret_cast<const char*>(yes)) * (USE_WIDE_GLYPH ? 2 : 1) + 1), LCD_HEIGHT - 1, yes, yesno);
   }
 
   #if HAS_MEDIA

@@ -30,6 +30,7 @@
 
 #include "ultralcd.h"
 #include "lcdprint.h"
+#include "fontutils.h"
 
 /**
  * lcd_put_u8str_P
@@ -90,20 +91,21 @@ lcd_uint_t lcd_put_u8str_P(PGM_P const ptpl, const int8_t ind, const char *cstr/
 }
 
 // Calculate UTF8 width with a simple check
-int calculateWidth(PGM_P const pstr) {
-  if (!USE_WIDE_GLYPH) return utf8_strlen_P(pstr) * MENU_FONT_WIDTH;
-  const uint8_t prop = 2;
-  const uint8_t *p = (uint8_t*)pstr;
-  int n = 0;
+// Remove the duplicate definition of the calculateWidth function
+// int calculateWidth(FSTR_P const pstr) {
+//   if (!USE_WIDE_GLYPH) return utf8_strlen_P(FTOP(pstr)) * MENU_FONT_WIDTH;
+//   const uint8_t prop = 2;
+//   const uint8_t *p = (uint8_t*)pstr;
+//   int n = 0;
 
-  do {
-    lchar_t wc;
-    p = get_utf8_value_cb(p, read_byte_rom, wc);
-    if (!wc) break;
-    n += (wc > 255) ? prop : 1;
-  } while (1);
+//   do {
+//     lchar_t wc;
+//     p = get_utf8_value_cb(p, read_byte_rom, wc);
+//     if (!wc) break;
+//     n += (wc > 255) ? prop : 1;
+//   } while (1);
 
-  return n * MENU_FONT_WIDTH;
-}
+//   return n * MENU_FONT_WIDTH;
+// }
 
 #endif // HAS_LCDPRINT

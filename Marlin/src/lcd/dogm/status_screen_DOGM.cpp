@@ -78,6 +78,7 @@
 #if HAS_DUAL_MIXING
   #include "../../feature/mixing.h"
 #endif
+#include "../fontutils.h"
 
 #define X_LABEL_POS      3
 #define X_VALUE_POS     11
