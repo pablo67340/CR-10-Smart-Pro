@@ -255,32 +255,73 @@
 
 #if HAS_LCD_MENU
 
+  #if HAS_MARLINUI_MENU
+
   // Manual Movement class
   class ManualMove {
-  public:
+  private:
+    static AxisEnum axis;
+    #if MULTI_E_MANUAL
+      static int8_t e_index;
+    #else
+      static int8_t constexpr e_index = 0;
+    #endif
     static millis_t start_time;
+    #if IS_KINEMATIC
+      static xyze_pos_t all_axes_destination;
+    #endif
+  public:
+    static screenFunc_t screen_ptr;
     static float menu_scale;
-    TERN_(IS_KINEMATIC, static float offset);
+    #if IS_KINEMATIC
+      static float offset;
+    #endif
+    #if ENABLED(MANUAL_E_MOVES_RELATIVE)
+      static float e_origin;
+    #endif
+    template <typename T>
+    static void set_destination(const T& dest) {
+      #if IS_KINEMATIC
+        // Moves are segmented, so the entire move is not submitted at once.
+        // Using a separate variable prevents corrupting the in-progress move.
+        all_axes_destination = current_position;
+        all_axes_destination.set(dest);
+      #else
+        // Moves are submitted as single line to the planner using buffer_line.
+        current_position.set(dest);
+      #endif
+    }
+    static float axis_value(const AxisEnum axis) {
+      return NATIVE_TO_LOGICAL(processing ? destination[axis] : SUM_TERN(IS_KINEMATIC, current_position[axis], offset), axis);
+    }
+    static bool apply_diff(const AxisEnum axis, const_float_t diff, const_float_t min, const_float_t max) {
+      #if IS_KINEMATIC
+        float &valref = offset;
+        const float rmin = min - current_position[axis], rmax = max - current_position[axis];
+      #else
+        float &valref = current_position[axis];
+        const float rmin = min, rmax = max;
+      #endif
+      valref += diff;
+      const float pre = valref;
+      if (min != max) { if (diff < 0) NOLESS(valref, rmin); else NOMORE(valref, rmax); }
+      return pre != valref;
+    }
     #if IS_KINEMATIC
       static bool processing;
     #else
       static bool constexpr processing = false;
     #endif
-    #if MULTI_MANUAL
-      static int8_t e_index;
-    #else
-      static int8_t constexpr e_index = 0;
-    #endif
-    static uint8_t axis;
     static void task();
-    static void soon(AxisEnum axis
-      #if MULTI_MANUAL
-        , const int8_t eindex=-1
-      #endif
-    );
+    static void soon(const AxisEnum axis OPTARG(MULTI_E_MANUAL, const int8_t eindex=active_extruder));
   };
 
+  void lcd_move_axis(const AxisEnum);
+
 #endif
+
+#endif
+
 
 ////////////////////////////////////////////
 //////////// MarlinUI Singleton ////////////

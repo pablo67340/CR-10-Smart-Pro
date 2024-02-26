@@ -177,6 +177,6 @@ uint8_t utf8_strlen(const char *pstart) {
   return utf8_strlen_cb(pstart, read_byte_ram);
 }
 
-uint8_t utf8_strlen_P(PGM_P pstart) {
-  return utf8_strlen_cb(pstart, read_byte_rom);
+uint8_t utf8_strlen_P(FSTR_P pstart) {
+  return utf8_strlen_cb(reinterpret_cast<const char*>(pstart), read_byte_rom);
 }

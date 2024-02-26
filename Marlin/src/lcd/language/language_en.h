@@ -451,6 +451,7 @@ namespace Language_en {
   LSTR MSG_ERR_EEPROM_SIZE                = _UxGT("Err: EEPROM Size");
   LSTR MSG_ERR_EEPROM_VERSION             = _UxGT("Err: EEPROM Version");
   LSTR MSG_ERR_EEPROM_CORRUPT             = _UxGT("Err: EEPROM Corrupt");
+  LSTR MSG_ERR_EEPROM_INDEX               = _UxGT("Err: EEPROM Index");
   LSTR MSG_SETTINGS_STORED                = _UxGT("Settings Stored");
   LSTR MSG_MEDIA_UPDATE                   = MEDIA_TYPE_EN _UxGT(" Update");
   LSTR MSG_RESET_PRINTER                  = _UxGT("Reset Printer");

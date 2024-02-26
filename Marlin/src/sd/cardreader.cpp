@@ -462,7 +462,7 @@ void CardReader::mount() {
     cdroot();
   else {
     #if ANY(HAS_SD_DETECT, USB_FLASH_DRIVE_SUPPORT)
-      if (marlin_state != MF_INITIALIZING) LCD_ALERTMESSAGE_P(MSG_MEDIA_INIT_FAIL);
+      if (marlin_state != MF_INITIALIZING) LCD_ALLERTMESSAGE(MSG_MEDIA_INIT_FAIL);
     #endif
   }
 

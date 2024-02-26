@@ -324,6 +324,7 @@
 #define STR_USER_THERMISTORS                "User thermistors"
 #define STR_DELAYED_POWEROFF                "Delayed poweroff"
 #define STR_ERR_SERIAL_MISMATCH             "Serial status mismatch"
+#define STR_SD_CARD_RELEASED                "SD card released"
 // LCD Menu Messages
 
 #define LANGUAGE_DATA_INCL_(M) STRINGIFY_(fontdata/langdata_##M.h)

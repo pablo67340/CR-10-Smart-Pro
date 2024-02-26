@@ -272,6 +272,35 @@ inline void clear_menu_history() { screen_history_depth = 0; }
   extern uint8_t manual_probe_index;
 #endif
 
+/**
+ * SCREEN_OR_MENU_LOOP generates header code for a screen or menu
+ *
+ *   encoderTopLine is the top menu line to display
+ *   _lcdLineNr is the index of the LCD line (e.g., 0-3)
+ *   _menuLineNr is the menu item to draw and process
+ *   _thisItemNr is the index of each MENU_ITEM or STATIC_ITEM
+ */
+#define SCREEN_OR_MENU_LOOP(IS_MENU)                    \
+  scroll_screen(IS_MENU ? 1 : LCD_HEIGHT, IS_MENU);     \
+  int8_t _menuLineNr = encoderTopLine, _thisItemNr = 0; \
+  bool _skipStatic = IS_MENU; UNUSED(_thisItemNr);      \
+  for (int8_t _lcdLineNr = 0; _lcdLineNr < LCD_HEIGHT; _lcdLineNr++, _menuLineNr++) { \
+    _thisItemNr = 0
+
+/**
+ * START_SCREEN  Opening code for a screen having only static items.
+ *               Do simplified scrolling of the entire screen.
+ *
+ * START_MENU    Opening code for a screen with menu items.
+ *               Scroll as-needed to keep the selected line in view.
+ */
+#define START_SCREEN() SCREEN_OR_MENU_LOOP(false)
+#define START_MENU() SCREEN_OR_MENU_LOOP(true)
+#define NEXT_ITEM() (++_thisItemNr)
+#define SKIP_ITEM() NEXT_ITEM()
+#define END_SCREEN() } screen_items = _thisItemNr
+#define END_MENU() END_SCREEN(); UNUSED(_skipStatic)
+
 #if ENABLED(ENCODER_RATE_MULTIPLIER)
   #define ENCODER_RATE_MULTIPLY(F) (ui.encoderRateMultiplierEnabled = F)
   #define _MENU_ITEM_MULTIPLIER_CHECK(USE_MULTIPLIER) do{ if (USE_MULTIPLIER) ui.enable_encoder_multiplier(true); }while(0)
@@ -280,3 +309,21 @@ inline void clear_menu_history() { screen_history_depth = 0; }
   #define ENCODER_RATE_MULTIPLY(F) NOOP
   #define _MENU_ITEM_MULTIPLIER_CHECK(USE_MULTIPLIER)
 #endif
+
+// STATIC_ITEM draws a styled string with no highlight.
+// Parameters: label [, style [, char *value] ]
+
+#define STATIC_ITEM_INNER_P(PLABEL, V...) do{           \
+  if (_skipStatic && encoderLine <= _thisItemNr) {      \
+    ui.encoderPosition += ENCODER_STEPS_PER_MENU_ITEM;  \
+    ++encoderLine;                                      \
+  }                                                     \
+  if (ui.should_draw())                                 \
+    MenuItem_static::draw(_lcdLineNr, PLABEL, ##V);     \
+} while(0)
+
+#define STATIC_ITEM_P(PLABEL, V...) do{ \
+  if (_menuLineNr == _thisItemNr)       \
+    STATIC_ITEM_INNER_P(PLABEL, ##V);   \
+  NEXT_ITEM();                          \
+} while(0)

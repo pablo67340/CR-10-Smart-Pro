@@ -751,3 +751,4 @@ void MarlinUI::clear_lcd() { } // Automatically cleared by Picture Loop
 #endif // HAS_MARLINUI_MENU
 
 #endif // HAS_MARLINUI_U8GLIB
+

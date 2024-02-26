@@ -117,7 +117,7 @@ constexpr uint8_t epps = ENCODER_PULSES_PER_STEP;
 #if HAS_SPI_LCD
 
 #if HAS_GRAPHICAL_LCD
-  #include "dogm/ultralcd_DOGM.h"
+  #include "dogm/marlinui_dogm.h"
 #endif
 
 #include "lcdprint.h"
@@ -224,6 +224,8 @@ millis_t MarlinUI::next_button_update_ms; // = 0
 
 #if HAS_LCD_MENU
   #include "menu/menu.h"
+#include <U8glib-HAL.h>
+#include "dogm/marlinui_DOGM.h"
 
   screenFunc_t MarlinUI::currentScreen; // Initialized in CTOR
   bool MarlinUI::screen_changed;
@@ -318,14 +320,14 @@ millis_t MarlinUI::next_button_update_ms; // = 0
 
   void MarlinUI::draw_select_screen_prompt(FSTR_P const pref, const char * const string/*=nullptr*/, FSTR_P const suff/*=nullptr*/)
   {
-    const uint8_t plen = utf8_strlen_P(pref), slen = suff ? utf8_strlen_P(suff) : 0;
+    const uint8_t plen = utf8_strlen_P(reinterpret_cast<const char*>(pref)), slen = suff ? utf8_strlen_P(reinterpret_cast<const char*>(suff)) : 0;
     uint8_t col = 0, row = 0;
     if (!string && plen + slen <= LCD_WIDTH)
     {
       col = (LCD_WIDTH - plen - slen) / 2;
       row = LCD_HEIGHT > 3 ? 1 : 0;
     }
-    wrap_string_P(col, row, pref, true);
+    wrap_string_P(col, row, reinterpret_cast<const char*>(pref), true);
     if (string)
     {
       if (col) { col = 0; row++; } // Move to the start of the next line
@@ -333,20 +335,20 @@ millis_t MarlinUI::next_button_update_ms; // = 0
     }
     if(suff)
     {
-      wrap_string_P(col, row, suff);
+      wrap_string_P(col, row, reinterpret_cast<const char*>(suff));
     }
   }
 
   void MarlinUI::draw_select_chinese_screen_prompt(FSTR_P const pref, const char * const string/*=nullptr*/, FSTR_P const suff/*=nullptr*/)
   {
-    const uint8_t plen = utf8_strlen_P(pref), slen = suff ? utf8_strlen_P(suff) : 0;
+    const uint8_t plen = utf8_strlen_P(reinterpret_cast<const char*>(pref)), slen = suff ? utf8_strlen_P(reinterpret_cast<const char*>(suff)) : 0;
     uint8_t col = 0, row = 0;
     if (!string && plen + slen <= LCD_WIDTH)
     {
       col = (LCD_WIDTH - plen - slen) / 2;
       row = LCD_HEIGHT > 3 ? 1 : 0;
     }
-    wrap_string_P(col, row, pref, true);
+    wrap_string_P(col, row, reinterpret_cast<const char*>(pref), true);
     if (string)
     {
       if (col) { col = 0; row++; } // Move to the start of the next line
@@ -356,12 +358,12 @@ millis_t MarlinUI::next_button_update_ms; // = 0
     {
       if(language_change_font == 0)
       {
-        wrap_string_P(col, row, suff);
+        wrap_string_P(col, row, reinterpret_cast<const char*>(suff));
       }
       else
       {
         col = col + plen;
-        wrap_string_P(col, row, suff);
+        wrap_string_P(col, row, reinterpret_cast<const char*>(suff));
       }
     }
   }
@@ -709,16 +711,14 @@ void MarlinUI::quick_feedback(const bool clear_buttons/*=true*/) {
 /////////////// Manual Move ////////////////
 ////////////////////////////////////////////
 
-#if HAS_LCD_MENU
 
-  ManualMove MarlinUI::manual_move{};
 
   millis_t ManualMove::start_time = 0;
   float ManualMove::menu_scale = 1;
   TERN_(IS_KINEMATIC, float ManualMove::offset = 0);
   TERN_(IS_KINEMATIC, bool ManualMove::processing = false);
   TERN_(MULTI_MANUAL, int8_t ManualMove::e_index = 0);
-  uint8_t ManualMove::axis = (uint8_t)NO_AXIS_ENUM;
+  AxisEnum ManualMove::axis = NO_AXIS_ENUM;
 
   /**
    * If a manual move has been posted and its time has arrived, and if the planner
@@ -782,7 +782,7 @@ void MarlinUI::quick_feedback(const bool clear_buttons/*=true*/) {
 
         //SERIAL_ECHOLNPAIR("Add planner.move with Axis ", int(axis), " at FR ", fr_mm_s);
 
-        axis = (uint8_t)NO_AXIS_ENUM;
+        axis = NO_AXIS_ENUM;
 
       #endif
     }
@@ -800,7 +800,7 @@ void MarlinUI::quick_feedback(const bool clear_buttons/*=true*/) {
       if (move_axis == E_AXIS) e_index = eindex >= 0 ? eindex : active_extruder;
     #endif
     start_time = millis() + (menu_scale < 0.99f ? 0UL : 250UL); // delay for bigger moves
-    axis = (uint8_t)move_axis;
+    axis = move_axis;
     //SERIAL_ECHOLNPAIR("Post Move with Axis ", int(axis), " soon.");
   }
 
@@ -1345,8 +1345,6 @@ void MarlinUI::update() {
 
 #endif // HAS_ENCODER_ACTION
 
-#endif // HAS_SPI_LCD
-
 #if HAS_DISPLAY
 
   #if ENABLED(EXTENSIBLE_UI)
@@ -1550,7 +1548,7 @@ void MarlinUI::update() {
   void MarlinUI::pause_print()
   {
     #if HAS_LCD_MENU
-      synchronize(GET_TEXT(MSG_PAUSING));
+      synchronize(GET_TEXT_F(MSG_PAUSING));
       defer_status_screen();
     #endif
 
@@ -1762,5 +1760,6 @@ void MarlinUI::update() {
     }
   }
 
+#endif // ALL(EXTENSIBLE_UI, ADVANCED_PAUSE_FEATURE)
 
 #endif // EEPROM_SETTINGS
