@@ -382,6 +382,8 @@ public:
     static constexpr bool sound_on = true;
   #endif
 
+  typedef bool (*statusResetFunc_t)();
+
   #if HAS_DISPLAY
 
     static void init();
@@ -393,6 +395,9 @@ public:
 
     static uint8_t alert_level; // Higher levels block lower levels
     static inline void reset_alert_level() { alert_level = 0; }
+
+    static statusResetFunc_t status_reset_callback;
+    static void set_status_reset_fn(const statusResetFunc_t fn=nullptr) { status_reset_callback = fn; }
 
     #if ENABLED(STATUS_MESSAGE_SCROLLING)
       static uint8_t status_scroll_offset;

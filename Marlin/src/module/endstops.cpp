@@ -540,7 +540,7 @@ void Endstops::event_handler() {
 
     TERN_(HAS_STATUS_MESSAGE,
       ui.status_printf(0,
-        F(S_FMT GANG_N_1(NUM_AXES, " %c") " %c"),
+        PSTR(S_FMT GANG_N_1(NUM_AXES, " %c") " %c"),
         GET_TEXT(MSG_LCD_ENDSTOPS),
         NUM_AXIS_LIST(chrX, chrY, chrZ, chrI, chrJ, chrK, chrU, chrV, chrW), chrP
       )

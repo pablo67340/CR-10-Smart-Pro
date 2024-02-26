@@ -1763,3 +1763,13 @@ void MarlinUI::update() {
 #endif // ALL(EXTENSIBLE_UI, ADVANCED_PAUSE_FEATURE)
 
 #endif // EEPROM_SETTINGS
+
+#if HAS_BUZZER
+  void MarlinUI::completion_feedback(const bool good/*=true*/) {
+    if (good) {
+      BUZZ(100, 659);
+      BUZZ(100, 698);
+    }
+    else BUZZ(20, 440);
+  }
+#endif

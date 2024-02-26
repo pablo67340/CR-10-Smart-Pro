@@ -46,12 +46,10 @@
   #include "dogm_Bootscreen.h"
 #endif
 
-#include "../lcdprint.h"
 #include "../utf8.h"
 #include "../../libs/numtostr.h"
 #include "../ultralcd.h"
 
-#include "../../sd/cardreader.h"
 #include "../../module/temperature.h"
 #include "../../module/printcounter.h"
 #include "../../MarlinCore.h"

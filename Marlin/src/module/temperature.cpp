@@ -777,7 +777,7 @@ volatile bool Temperature::raw_temps_ready = false;
             }
           }
           SHV((bias + d) >> 1);
-          TERN_(HAS_STATUS_MESSAGE, ui.status_printf(0, F(S_FMT " %i/%i"), GET_TEXT(MSG_PID_CYCLE), cycles, ncycles));
+          TERN_(HAS_STATUS_MESSAGE, ui.status_printf(0, PSTR(S_FMT " %i/%i"), GET_TEXT(MSG_PID_CYCLE), cycles, ncycles));
           cycles++;
           minT = target;
         }
@@ -1261,38 +1261,39 @@ int16_t Temperature::getHeaterPower(const heater_id_t heater_id) {
 
 #endif // HAS_AUTO_FAN
 
+
+/**
+ * Macros to include the heater id in temp errors. The compiler's dead-code
+ * elimination should (hopefully) optimize out the unused strings.
+ */
+
+#if HAS_HEATED_BED
+  #define _BED_PSTR(h) (h) == H_BED ? GET_TEXT(MSG_BED) :
+#else
+  #define _BED_PSTR(h)
+#endif
+#if HAS_HEATED_CHAMBER
+  #define _CHAMBER_PSTR(h) (h) == H_CHAMBER ? GET_TEXT(MSG_CHAMBER) :
+#else
+  #define _CHAMBER_PSTR(h)
+#endif
+#define _E_PSTR(h,N) ((HOTENDS) > N && (h) == N) ? PSTR(LCD_STR_E##N) :
+#define HEATER_PSTR(h) _BED_PSTR(h) _CHAMBER_PSTR(h) _E_PSTR(h,1) _E_PSTR(h,2) _E_PSTR(h,3) _E_PSTR(h,4) _E_PSTR(h,5) PSTR(LCD_STR_E0)
+
 //
 // Temperature Error Handlers
 //
 
-inline void loud_kill(FSTR_P const lcd_msg, const heater_id_t heater_id) {
+inline void loud_kill(FSTR_P const lcd_msg, const heater_id_t heater) {
   marlin_state = MF_KILLED;
-  thermalManager.disable_all_heaters();
-  #if HAS_BEEPER
+  #if USE_BEEPER
     for (uint8_t i = 20; i--;) {
-      hal.watchdog_refresh();
-      buzzer.click(25);
-      delay(80);
-      hal.watchdog_refresh();
+      WRITE(BEEPER_PIN, HIGH); delay(25);
+      WRITE(BEEPER_PIN, LOW); delay(80);
     }
-    buzzer.on();
+    WRITE(BEEPER_PIN, HIGH);
   #endif
-  #if ENABLED(NOZZLE_PARK_FEATURE)
-    if (!homing_needed_error()) {
-      nozzle.park(0);
-      planner.synchronize();
-    }
-  #endif
-
-  #define _FSTR_BED(h)     TERN(HAS_HEATED_BED,     (h) == H_BED      ? GET_TEXT_F(MSG_BED) :,)
-  #define _FSTR_CHAMBER(h) TERN(HAS_HEATED_CHAMBER, (h) == H_CHAMBER  ? GET_TEXT_F(MSG_CHAMBER) :,)
-  #define _FSTR_COOLER(h)  TERN(HAS_COOLER,         (h) == H_COOLER   ? GET_TEXT_F(MSG_COOLER) :,)
-  #define _FSTR_E(h,N)     TERN(HAS_HOTEND,        ((h) == N && (HOTENDS) > N) ? F(STR_E##N) :,)
-  #define HEATER_FSTR(h) _FSTR_BED(h) _FSTR_CHAMBER(h) _FSTR_COOLER(h) \
-                         _FSTR_E(h,1) _FSTR_E(h,2) _FSTR_E(h,3) _FSTR_E(h,4) \
-                         _FSTR_E(h,5) _FSTR_E(h,6) _FSTR_E(h,7) F(STR_E0)
-
-  kill(lcd_msg, HEATER_FSTR(heater_id));
+  kill(lcd_msg, FSTR_P(HEATER_PSTR(heater)));
 }
 
 void Temperature::_temp_error(const heater_id_t heater_id, FSTR_P const serial_msg, FSTR_P const lcd_msg) {
@@ -4171,7 +4172,7 @@ void Temperature::isr() {
         #if HAS_MULTI_HOTEND
           F("E%c " S_FMT), '1' + e
         #else
-          F("E1 " S_FMT)
+          PSTR("E1 " S_FMT)
         #endif
         , heating ? GET_TEXT(MSG_HEATING) : GET_TEXT(MSG_COOLING)
       );

@@ -295,12 +295,10 @@ int calculateWidth(PGM_P const pstr);
  */
 inline int calculateWidth(FSTR_P const fstr) { return calculateWidth(FTOP(fstr)); }
 
-int lcd_put_wchar_max(wchar_t c, pixel_len_t max_length);
-
-inline int lcd_put_wchar(const wchar_t c) { return lcd_put_wchar_max(c, PIXEL_LEN_NOLIMIT); }
+inline int lcd_put_wchar(const lchar_t c) { return lcd_put_lchar_max(static_cast<lchar_t>(c), PIXEL_LEN_NOLIMIT); }
 inline int lcd_put_wchar(const lcd_uint_t col, const lcd_uint_t row, const wchar_t c) {
   lcd_moveto(col, row);
-  return lcd_put_wchar(c);
+  return lcd_put_wchar(static_cast<lchar_t>(c));
 }
 
 #define START_OF_UTF8_CHAR(C) (((C) & 0xC0u) != 0x80u)
