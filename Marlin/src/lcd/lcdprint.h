@@ -286,14 +286,7 @@ inline int lcd_put_lchar(const lcd_uint_t col, const lcd_uint_t row, const lchar
  * @param pstr The ROM-based UTF-8 string
  * @return the string width (in pixels on GLCD)
  */
-int calculateWidth(PGM_P const pstr);
-/**
- * @brief Calculate the width of a ROM UTF-8 string (in pixels on GLCD)
- *
- * @param pstr The ROM-based UTF-8 string
- * @return the string width (in pixels on GLCD)
- */
-inline int calculateWidth(FSTR_P const fstr) { return calculateWidth(FTOP(fstr)); }
+int calculateWidth(FSTR_P const fstr) { return calculateWidth(fstr); }
 
 inline int lcd_put_wchar(const lchar_t c) { return lcd_put_lchar_max(static_cast<lchar_t>(c), PIXEL_LEN_NOLIMIT); }
 inline int lcd_put_wchar(const lcd_uint_t col, const lcd_uint_t row, const wchar_t c) {

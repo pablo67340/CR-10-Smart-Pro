@@ -14,6 +14,7 @@
 #include <string.h>
 #include "../utf8.h"
 #include "u8g_fontutf8.h"
+#include "../fontutils.h"
 
 typedef void font_t;
 

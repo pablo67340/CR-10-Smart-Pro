@@ -440,14 +440,7 @@ FORCE_INLINE void _draw_axis_value(const AxisEnum axis, const char *value, const
   static MarlinUI::progress_t progress = 0;
   static char bufferc[13];
 
-  static void prepare_time_string(const duration_t &time, char prefix) {
-    char str[13];
-    memset(&bufferc[2], 0x20, 5); // partialy fill with spaces to avoid artifacts and terminator
-    bufferc[0] = prefix;
-    bufferc[1] = ':';
-    int str_length = time.toDigital(str, time.value >= 60*60*24L);
-    strcpy(&bufferc[sizeof(bufferc) - str_length - 1], str);
-  }
+  
 
   #if ENABLED(SHOW_PROGRESS_PERCENT)
     void MarlinUI::drawPercent() {
@@ -462,18 +455,43 @@ FORCE_INLINE void _draw_axis_value(const AxisEnum axis, const char *value, const
     }
   #endif
   #if ENABLED(SHOW_REMAINING_TIME)
+
+    static void prepare_time_string(const duration_t &time, char prefix) {
+      char str[13];
+      memset(&bufferc[2], 0x20, 5); // partialy fill with spaces to avoid artifacts and terminator
+      bufferc[0] = prefix;
+      bufferc[1] = ':';
+      int str_length = time.toDigital(str, time.value >= 60*60*24L);
+      strcpy(&bufferc[sizeof(bufferc) - str_length - 1], str);
+    }
     void MarlinUI::drawRemain() {
       if (printJobOngoing() && get_remaining_time() != 0)
         prepare_time_string(get_remaining_time(), 'R');
     }
   #endif
   #if ENABLED(SHOW_INTERACTION_TIME)
+    static void prepare_time_string(const duration_t &time, char prefix) {
+      char str[13];
+      memset(&bufferc[2], 0x20, 5); // partialy fill with spaces to avoid artifacts and terminator
+      bufferc[0] = prefix;
+      bufferc[1] = ':';
+      int str_length = time.toDigital(str, time.value >= 60*60*24L);
+      strcpy(&bufferc[sizeof(bufferc) - str_length - 1], str);
+    }
     void MarlinUI::drawInter() {
       if (printingIsActive() && interaction_time)
         prepare_time_string(interaction_time, 'C');
     }
   #endif
   #if ENABLED(SHOW_ELAPSED_TIME)
+    static void prepare_time_string(const duration_t &time, char prefix) {
+      char str[13];
+      memset(&bufferc[2], 0x20, 5); // partialy fill with spaces to avoid artifacts and terminator
+      bufferc[0] = prefix;
+      bufferc[1] = ':';
+      int str_length = time.toDigital(str, time.value >= 60*60*24L);
+      strcpy(&bufferc[sizeof(bufferc) - str_length - 1], str);
+    }
     void MarlinUI::drawElapsed() {
       if (printJobOngoing())
         prepare_time_string(print_job_timer.duration(), 'E');

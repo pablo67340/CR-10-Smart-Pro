@@ -60,7 +60,6 @@ typedef uint16_t pixel_len_t;
 
 /* Perform binary search */
 typedef int (* pf_bsearch_cb_comp_t)(void *userdata, size_t idx, void * data_pin);
-int pf_bsearch_r(void *userdata, size_t num_data, pf_bsearch_cb_comp_t cb_comp, void *data_pinpoint, size_t *ret_idx);
 
 /* Get the character, decoding multibyte UTF8 characters and returning a pointer to the start of the next UTF8 character */
 const uint8_t* get_utf8_value_cb(const uint8_t *pstart, read_byte_cb_t cb_read_byte, lchar_t &pval);
